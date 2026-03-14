@@ -169,129 +169,6 @@
     `;
   }
 
-
-  function normalizeBrainPayload(data) {
-    const isV2 =
-      data &&
-      (
-        data?.optimization_decision ||
-        data?.recommended_actions ||
-        data?.anomalies ||
-        data?.views ||
-        data?.overall_status
-      );
-
-    if (isV2) {
-      const views = data?.views || {};
-      const summaryRaw = typeof data?.summary === "string"
-        ? data.summary
-        : (
-            data?.summary?.headline ||
-            data?.summary?.text ||
-            data?.message ||
-            data?.insight ||
-            "No summary available."
-          );
-
-      const summaryHeadline =
-        data?.summary?.headline ||
-        data?.summary_headline ||
-        data?.overall_status ||
-        "AI Brain Summary";
-
-      const summaryText =
-        data?.summary?.text ||
-        data?.summary?.short_text ||
-        data?.summary_text ||
-        (typeof data?.summary === "string" ? data.summary : "") ||
-        data?.message ||
-        data?.insight ||
-        "No summary available.";
-
-      const actions = Array.isArray(data?.recommended_actions) ? data.recommended_actions : [];
-      const firstAction = actions[0] || {};
-
-      return {
-        version: "v2",
-        overall_status: data?.overall_status || data?.status || "unknown",
-        confidence: data?.confidence ?? "-",
-        summary_headline: summaryHeadline,
-        summary_text: summaryText,
-        summary: summaryRaw,
-        recommendation:
-          firstAction?.title ||
-          firstAction?.rationale ||
-          data?.recommended_action ||
-          data?.next_action ||
-          "No recommendation available.",
-        reasons: Array.isArray(data?.signals) ? data.signals : [],
-        signals: Array.isArray(data?.signals) ? data.signals : [],
-        anomalies: Array.isArray(data?.anomalies) ? data.anomalies : [],
-        recommended_actions: actions,
-        optimization_decision: data?.optimization_decision || {},
-        financial_view:
-          views?.financial_view ||
-          views?.financial ||
-          {},
-        sustainability_view:
-          views?.sustainability_view ||
-          views?.sustainability ||
-          {},
-        twin: data?.twin || {},
-        lastUpdated:
-          data?.timestamp ||
-          data?.updated_at ||
-          data?.last_updated ||
-          "—"
-      };
-    }
-
-    return {
-      status:
-        data?.status ||
-        data?.health ||
-        data?.brain_status ||
-        "unknown",
-      mode:
-        data?.mode ||
-        data?.lens ||
-        data?.active_mode ||
-        "executive",
-      summary:
-        data?.summary ||
-        data?.ops_note ||
-        data?.message ||
-        data?.insight ||
-        data?.description ||
-        "No summary available.",
-      recommendation:
-        data?.recommendation ||
-        data?.next_action ||
-        data?.recommended_action ||
-        "No recommendation available.",
-      reasons:
-        data?.reasons ||
-        data?.signals ||
-        data?.alerts ||
-        data?.issues ||
-        [],
-      financeNote:
-        data?.finance_note ||
-        data?.financeNote ||
-        "",
-      sustainabilityNote:
-        data?.sustainability_note ||
-        data?.sustainabilityNote ||
-        "",
-      lastUpdated:
-        data?.last_updated ||
-        data?.updated_at ||
-        data?.timestamp ||
-        data?.checked_at ||
-        "—"
-    };
-  }
-
   function asList(items) {
     const arr = Array.isArray(items) ? items : (items ? [items] : []);
     if (!arr.length) {
@@ -439,7 +316,7 @@
     const blocks = [
       card("Brain Status", pill(view.status)),
       card("Mode", escapeHtml(safe(view.mode))),
-      card("Summary", escapeHtml(safe(view.summary))),
+      card("Summary", escapeHtml(view.summary && view.summary.short_text ? view.summary.short_text : safe(view.summary))),
       card("Recommended Action", escapeHtml(safe(view.recommendation))),
       card("Reasons / Signals", asList(view.reasons))
     ];
@@ -512,7 +389,7 @@
 
     try {
       const data = await fetchBrainData();
-      const view = normalizeBrainPayload(data.brain || data);
+      const view = window.ZeroExecutiveDataContract.normalizeBrainPayload(data.brain || data);
       updateModalBody(renderSuccess(view));
     } catch (err) {
       updateModalBody(renderError(err?.message || "Unknown error"));

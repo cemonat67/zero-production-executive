@@ -1,6 +1,8 @@
 .zp-pde-shell{
   position:relative;
-  margin:18px 0 22px 0;
+  margin:10px auto 18px auto;
+  max-width:1180px;
+  width:calc(100% - 36px);
   border:1px solid rgba(255,255,255,.08);
   border-radius:18px;
   background:
@@ -284,7 +286,9 @@
 
 .zp-alt-shell{
   position:relative;
-  margin:14px 0 24px 0;
+  margin:12px auto 18px auto;
+  max-width:1180px;
+  width:calc(100% - 36px);
   border:1px solid rgba(255,255,255,.08);
   border-radius:18px;
   background:linear-gradient(180deg, rgba(9,16,28,.96) 0%, rgba(7,12,21,.98) 100%);
