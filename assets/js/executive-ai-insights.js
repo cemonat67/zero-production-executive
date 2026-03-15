@@ -246,6 +246,7 @@
     const production = state.production || {};
     const utilities = state.utilities || {};
     const sustainability = state.sustainability || {};
+    const envFlags = sustainability.environmental_flags || {};
 
     const latestByType = new Map();
     signals.forEach(sig => {
@@ -272,12 +273,12 @@
       ? "Local FactoryOS runtime detected executive-level operational pressure. API brain is unavailable, so this summary is generated from live runtime metrics and active signals."
       : "AI endpoint is unavailable, but local FactoryOS runtime is stable enough to produce an executive fallback summary.";
 
-    const ceoView = latestByType.get("water_usage_high")
-      ? "Water consumption is above the expected operating envelope. Sustainability posture requires monitoring before the next cycle."
+    const ceoView = (latestByType.get("water_usage_high") || envFlags.waste_pressure)
+      ? "Water and waste pressure are visible in the operating context. Sustainability and compliance posture should be reviewed before the next cycle."
       : "Sustainability posture is currently stable based on local runtime telemetry.";
 
-    const cfoView = latestByType.get("energy_spike")
-      ? "Energy intensity is elevated. Financial exposure is likely rising through utility cost pressure and margin erosion."
+    const cfoView = (latestByType.get("energy_spike") || envFlags.carbon_hotspot)
+      ? "Energy or carbon pressure is elevated. Financial exposure may be rising through utility cost, carbon intensity and margin erosion."
       : "No immediate energy-driven financial escalation is visible in the local runtime.";
 
     const ctoView = latestByType.get("machine_overload")
@@ -286,11 +287,14 @@
 
     const ceoScore = Math.min(100,
       (latestByType.get("water_usage_high") ? 55 : 15) +
+      (envFlags.waste_pressure ? 18 : 0) +
       Math.max(0, Number(utilities.water_m3 || 0) - 20)
     );
 
     const cfoScore = Math.min(100,
       (latestByType.get("energy_spike") ? 55 : 15) +
+      (envFlags.carbon_hotspot ? 18 : 0) +
+      (envFlags.scope3_visible ? 6 : 0) +
       Math.max(0, Math.round((Number(utilities.energy_kwh || 0) - 1000) / 20))
     );
 
@@ -351,13 +355,52 @@
         financial_effect: { cost_saving_try: "high" }
       });
     }
+    if (envFlags.carbon_hotspot) {
+      actions.push({
+        title: "Review carbon hotspot exposure in current operating mix",
+        priority: "high",
+        rationale: "Environmental layer indicates elevated total CO2e exposure. CFO and sustainability review should validate fuel, electricity and carbon intensity drivers.",
+        owner: "CFO / Sustainability",
+        confidence: 0.84,
+        expected_impact: { energy_kwh: "optimize", co2_kg: "reduce hotspot", water_m3: "-" },
+        financial_effect: { cost_saving_try: "medium" }
+      });
+    }
+    if (envFlags.waste_pressure) {
+      actions.push({
+        title: "Escalate waste and wastewater compliance review",
+        priority: "high",
+        rationale: "Waste pressure is visible in the environmental layer. Management should verify waste segregation, treatment path and wastewater compliance exposure.",
+        owner: "CEO / Sustainability",
+        confidence: 0.83,
+        expected_impact: { energy_kwh: "-", co2_kg: "reduce indirect exposure", water_m3: "support compliance" },
+        financial_effect: { cost_saving_try: "indirect" }
+      });
+    }
+    if (envFlags.scope3_visible) {
+      actions.push({
+        title: "Make Scope 3 exposure visible in executive narrative",
+        priority: "medium",
+        rationale: "Environmental layer shows Scope 3 contribution. This should remain visible in sustainability reporting even if no direct operational anomaly is active.",
+        owner: "Sustainability / Reporting",
+        confidence: 0.8,
+        expected_impact: { energy_kwh: "-", co2_kg: "improve visibility", water_m3: "-" },
+        financial_effect: { cost_saving_try: "reporting value" }
+      });
+    }
 
     const actionsHtml = actions.length
       ? actions.map(renderActionCard).join("")
       : `<div class="ai-empty">No immediate recommended actions.</div>`;
 
-    const decisionNote = activeSignals.length
-      ? "Executive action is recommended. Keep the current batch under observation, validate machine load, and confirm whether energy and water anomalies are process-driven or route-driven."
+    const decisionNote = (activeSignals.length || envFlags.carbon_hotspot || envFlags.waste_pressure || envFlags.scope3_visible)
+      ? [
+          "Executive action is recommended.",
+          "Keep the current batch under observation, validate machine load, and confirm whether energy and water anomalies are process-driven or route-driven.",
+          envFlags.carbon_hotspot ? "Carbon exposure is now material enough to influence CFO and sustainability attention." : null,
+          envFlags.waste_pressure ? "Waste and wastewater pressure should remain visible at CEO/compliance level." : null,
+          envFlags.scope3_visible ? "Scope 3 contribution should remain visible in the sustainability narrative." : null
+        ].filter(Boolean).join(" ")
       : "No escalation is required. Continue live monitoring and wait for the external AI brain endpoint to resume.";
 
     return `
