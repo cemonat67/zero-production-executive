@@ -473,6 +473,24 @@
                 <div class="ai-card-message">${esc(ctoView)}</div>
               </div>
             </div>
+            <div class="ai-card">
+              <div class="ai-card-top">
+                <strong>Environmental Signals</strong>
+                ${renderSeverityPill(
+                  envFlags.carbon_hotspot || envFlags.waste_pressure
+                    ? "high"
+                    : (envFlags.scope3_visible ? "medium" : "ok")
+                )}
+              </div>
+              <div class="ai-card-body">
+                <div class="ai-meta-grid">
+                  ${renderKV("Carbon Exposure", envFlags.carbon_hotspot ? "active" : "normal")}
+                  ${renderKV("Wastewater / Compliance", envFlags.waste_pressure ? "watch" : "normal")}
+                  ${renderKV("Scope 3 Visibility", envFlags.scope3_visible ? "visible" : "not material")}
+                  ${renderKV("Executive Interpretation", (envFlags.carbon_hotspot || envFlags.waste_pressure || envFlags.scope3_visible) ? "elevated" : "stable")}
+                </div>
+              </div>
+            </div>
           </div>
         `)}
 
