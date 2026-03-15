@@ -335,6 +335,25 @@
       Math.max(0, Number(production.load_pct || 0) - 50)
     );
 
+    const ceoScoreDrivers = [
+      latestByType.get("water_usage_high") ? "water signal" : null,
+      envFlags.waste_pressure ? "waste pressure" : null,
+      envFlags.carbon_hotspot ? "carbon visibility" : null,
+      envFlags.scope3_visible ? "Scope 3 visibility" : null
+    ].filter(Boolean).join(" + ");
+
+    const cfoScoreDrivers = [
+      latestByType.get("energy_spike") ? "energy spike" : null,
+      envFlags.carbon_hotspot ? "carbon hotspot" : null,
+      envFlags.scope3_visible ? "Scope 3 visibility" : null
+    ].filter(Boolean).join(" + ");
+
+    const ctoScoreDrivers = [
+      latestByType.get("machine_overload") ? "machine overload" : null,
+      envFlags.waste_pressure ? "waste awareness" : null,
+      envFlags.scope3_visible ? "environmental visibility" : null
+    ].filter(Boolean).join(" + ");
+
     const signalCards = activeSignals.length
       ? activeSignals.map(sig => renderSignalCard({
           code: sig.type || "SIGNAL",
@@ -459,6 +478,11 @@
                   ${renderKV("CFO Score", cfoScore + " / 100")}
                   ${renderKV("CTO Score", ctoScore + " / 100")}
                   ${renderKV("Signal Count", activeSignals.length)}
+                </div>
+                <div class="ai-card-message" style="margin-top:8px;opacity:.82;">
+                  <div>${esc("CEO drivers: " + (ceoScoreDrivers || "base operational signal"))}</div>
+                  <div>${esc("CFO drivers: " + (cfoScoreDrivers || "base operational signal"))}</div>
+                  <div>${esc("CTO drivers: " + (ctoScoreDrivers || "base operational signal"))}</div>
                 </div>
               </div>
             </div>
