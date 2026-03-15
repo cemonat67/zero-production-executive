@@ -2874,7 +2874,17 @@ document.getElementById("openEmailIntakeBtn")?.addEventListener("click",function
         FactoryOS.set("utilities.energy_kwh", metrics.energy_kwh);
         FactoryOS.set("utilities.water_m3", metrics.water_m3);
 
-        FactoryOS.set("sustainability.co2_kg", metrics.co2_kg);
+        const envSummaryLive = FactoryOS.get("sustainability.environmental_summary");
+        FactoryOS.set(
+          "sustainability.co2_kg",
+          envSummaryLive && envSummaryLive.total_co2e_kg != null
+            ? Number(envSummaryLive.total_co2e_kg)
+            : metrics.co2_kg
+        );
+
+        if(typeof FactoryOS.refreshEnvironmentalSummary === "function"){
+          FactoryOS.refreshEnvironmentalSummary();
+        }
 
       }
       updateLiveMonitor(data);
@@ -2891,7 +2901,17 @@ document.getElementById("openEmailIntakeBtn")?.addEventListener("click",function
         FactoryOS.set("utilities.energy_kwh",1850);
         FactoryOS.set("utilities.water_m3",42);
 
-        FactoryOS.set("sustainability.co2_kg",920);
+        const envSummaryFallback = FactoryOS.get("sustainability.environmental_summary");
+        FactoryOS.set(
+          "sustainability.co2_kg",
+          envSummaryFallback && envSummaryFallback.total_co2e_kg != null
+            ? Number(envSummaryFallback.total_co2e_kg)
+            : 920
+        );
+
+        if(typeof FactoryOS.refreshEnvironmentalSummary === "function"){
+          FactoryOS.refreshEnvironmentalSummary();
+        }
 
       }
     }

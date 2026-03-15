@@ -35,7 +35,13 @@
 
       sustainability: {
         co2_kg: 0,
-        wastewater_risk: "OK"
+        wastewater_risk: "OK",
+        environmental_summary: null,
+        environmental_flags: {
+          carbon_hotspot: false,
+          waste_pressure: false,
+          scope3_visible: false
+        }
       },
 
       finance: {
@@ -74,6 +80,47 @@
       }
 
       obj[parts[0]] = value;
+
+    },
+
+    buildEnvironmentalFlags(snapshot){
+
+      const env = snapshot || {};
+
+      return {
+        carbon_hotspot: Number(env.total_co2e_kg || 0) >= 9000,
+        waste_pressure: Number(env.total_waste_kg || 0) >= 700,
+        scope3_visible: Number(env.total_scope3_co2e_kg || 0) > 0
+      };
+
+    },
+
+    refreshEnvironmentalSummary(){
+
+      const envLayer = window.EnvironmentalLayer;
+
+      if(!envLayer || typeof envLayer.getEnvironmentalSnapshot !== "function"){
+        return null;
+      }
+
+      const snapshot = envLayer.getEnvironmentalSnapshot();
+      const flags = this.buildEnvironmentalFlags(snapshot);
+
+      this.state.sustainability.environmental_summary = {
+        total_scope1_co2e_kg: Number(snapshot.total_scope1_co2e_kg || 0),
+        total_scope2_co2e_kg: Number(snapshot.total_scope2_co2e_kg || 0),
+        total_scope3_co2e_kg: Number(snapshot.total_scope3_co2e_kg || 0),
+        total_co2e_kg: Number(snapshot.total_co2e_kg || 0),
+        total_waste_kg: Number(snapshot.total_waste_kg || 0)
+      };
+
+      this.state.sustainability.environmental_flags = flags;
+      this.state.sustainability.co2_kg = Number(snapshot.total_co2e_kg || 0);
+
+      return {
+        summary: this.state.sustainability.environmental_summary,
+        flags
+      };
 
     },
 
@@ -118,5 +165,6 @@
   };
 
   window.FactoryOS = FactoryOS;
+  window.FactoryOS.refreshEnvironmentalSummary();
 
 })();

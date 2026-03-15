@@ -477,6 +477,22 @@
           <div class="ai-card ai-card-decision">
             <div class="ai-card-body">
               <div class="ai-card-message">${esc(decisionNote)}</div>
+              <div class="ai-card-message" style="margin-top:8px;opacity:.88;">
+                ${
+                  sustainability.environmental_flags?.carbon_hotspot
+                  || sustainability.environmental_flags?.waste_pressure
+                  || sustainability.environmental_flags?.scope3_visible
+                    ? esc(
+                        "Environmental signal: "
+                        + [
+                            sustainability.environmental_flags?.carbon_hotspot ? "carbon hotspot active" : null,
+                            sustainability.environmental_flags?.waste_pressure ? "waste pressure visible" : null,
+                            sustainability.environmental_flags?.scope3_visible ? "scope 3 exposure visible" : null
+                          ].filter(Boolean).join(" · ")
+                      )
+                    : esc("Environmental signal: no material environmental pressure flagged.")
+                }
+              </div>
             </div>
           </div>
         `)}
@@ -489,6 +505,19 @@
             ${renderKV("Water m3", utilities.water_m3 != null ? utilities.water_m3 : "-")}
             ${renderKV("CO₂ kg", sustainability.co2_kg != null ? sustainability.co2_kg : "-")}
             ${renderKV("Wastewater Risk", sustainability.wastewater_risk || "-")}
+          </div>
+        `)}
+
+        ${renderV2Section("Environmental Summary", `
+          <div class="ai-meta-grid">
+            ${renderKV("Scope 1 CO₂e kg", sustainability.environmental_summary?.total_scope1_co2e_kg != null ? sustainability.environmental_summary.total_scope1_co2e_kg : "-")}
+            ${renderKV("Scope 2 CO₂e kg", sustainability.environmental_summary?.total_scope2_co2e_kg != null ? sustainability.environmental_summary.total_scope2_co2e_kg : "-")}
+            ${renderKV("Scope 3 CO₂e kg", sustainability.environmental_summary?.total_scope3_co2e_kg != null ? sustainability.environmental_summary.total_scope3_co2e_kg : "-")}
+            ${renderKV("Total CO₂e kg", sustainability.environmental_summary?.total_co2e_kg != null ? sustainability.environmental_summary.total_co2e_kg : "-")}
+            ${renderKV("Total Waste kg", sustainability.environmental_summary?.total_waste_kg != null ? sustainability.environmental_summary.total_waste_kg : "-")}
+            ${renderKV("Carbon Hotspot", sustainability.environmental_flags?.carbon_hotspot ? "yes" : "no")}
+            ${renderKV("Waste Pressure", sustainability.environmental_flags?.waste_pressure ? "yes" : "no")}
+            ${renderKV("Scope 3 Visible", sustainability.environmental_flags?.scope3_visible ? "yes" : "no")}
           </div>
         `)}
       </div>
