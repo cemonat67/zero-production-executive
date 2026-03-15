@@ -270,18 +270,18 @@
       : "No active local FactoryOS signals";
 
     let summary = activeSignals.length
-      ? "Local FactoryOS runtime detected executive-level operational pressure. API brain is unavailable, so this summary is generated from live runtime metrics and active signals."
-      : "AI endpoint is unavailable, but local FactoryOS runtime is stable enough to produce an executive fallback summary.";
+      ? "Local FactoryOS runtime detected executive-level operational pressure. The API brain is unavailable, so this summary is based on live runtime metrics and active signals."
+      : "AI endpoint is unavailable, but local FactoryOS runtime remains stable enough to produce an executive fallback summary.";
 
     const environmentalNarrative = [
       envFlags.carbon_hotspot
-        ? "Carbon hotspot pressure is now visible at board level through cost, margin and sustainability exposure."
+        ? "Carbon hotspot is now reflected at board level through cost, margin and sustainability exposure."
         : null,
       envFlags.waste_pressure
-        ? "Waste and wastewater pressure require visible compliance attention in the executive summary."
+        ? "Waste and wastewater conditions now warrant explicit compliance attention in the executive summary."
         : null,
       envFlags.scope3_visible
-        ? "Scope 3 contribution remains part of the sustainability narrative and should stay visible in reporting context."
+        ? "Scope 3 contribution remains material to the sustainability narrative and should remain in reporting context."
         : null
     ].filter(Boolean).join(" ");
 
@@ -290,12 +290,12 @@
     }
 
     const ceoView = (latestByType.get("water_usage_high") || envFlags.waste_pressure)
-      ? "Water and waste pressure are visible in the operating context. Sustainability and compliance posture should be reviewed before the next cycle."
+      ? "Water and waste conditions are material in the operating context. Sustainability and compliance posture should be reviewed before the next cycle."
       : "Sustainability posture is currently stable based on local runtime telemetry.";
 
     const cfoView = (latestByType.get("energy_spike") || envFlags.carbon_hotspot)
-      ? "Energy or carbon pressure is elevated. Financial exposure may be rising through utility cost, carbon intensity and margin erosion."
-      : "No immediate energy-driven financial escalation is visible in the local runtime.";
+      ? "Energy or carbon exposure is elevated. Financial risk may be rising through utility cost, carbon intensity and margin erosion."
+      : "No immediate energy-driven financial escalation is indicated in the local runtime.";
 
     const ctoView = latestByType.get("machine_overload")
       ? "Machine load is operating in a high-risk zone. Capacity fit and runtime resilience should be validated immediately."
@@ -337,21 +337,21 @@
 
     const ceoScoreDrivers = [
       latestByType.get("water_usage_high") ? "water stress" : null,
-      envFlags.waste_pressure ? "waste compliance visibility" : null,
-      envFlags.carbon_hotspot ? "carbon governance visibility" : null,
-      envFlags.scope3_visible ? "Scope 3 visibility" : null
+      envFlags.waste_pressure ? "waste compliance oversight" : null,
+      envFlags.carbon_hotspot ? "carbon governance review" : null,
+      envFlags.scope3_visible ? "Scope 3 reporting presence" : null
     ].filter(Boolean).join(" + ");
 
     const cfoScoreDrivers = [
       latestByType.get("energy_spike") ? "energy cost pressure" : null,
       envFlags.carbon_hotspot ? "carbon hotspot" : null,
-      envFlags.scope3_visible ? "Scope 3 visibility" : null
+      envFlags.scope3_visible ? "Scope 3 reporting presence" : null
     ].filter(Boolean).join(" + ");
 
     const ctoScoreDrivers = [
       latestByType.get("machine_overload") ? "machine overload" : null,
-      envFlags.waste_pressure ? "waste handling visibility" : null,
-      envFlags.scope3_visible ? "environmental system visibility" : null
+      envFlags.waste_pressure ? "waste handling review" : null,
+      envFlags.scope3_visible ? "environmental system oversight" : null
     ].filter(Boolean).join(" + ");
 
     const signalCards = activeSignals.length
@@ -421,7 +421,7 @@
       actions.push({
         title: "Escalate waste and wastewater compliance review",
         priority: "high",
-        rationale: "Waste pressure is visible in the environmental layer. Management should verify waste segregation, treatment path and wastewater compliance exposure.",
+        rationale: "Environmental signals indicate rising waste and wastewater compliance exposure. Management should verify waste segregation, treatment path and discharge control.",
         owner: "CEO / Sustainability",
         confidence: 0.83,
         expected_impact: { energy_kwh: "-", co2_kg: "reduce indirect exposure", water_m3: "support compliance" },
@@ -430,12 +430,12 @@
     }
     if (envFlags.scope3_visible) {
       actions.push({
-        title: "Make Scope 3 exposure visible in executive narrative",
+        title: "Maintain Scope 3 exposure in executive narrative",
         priority: "medium",
-        rationale: "Environmental layer shows Scope 3 contribution. This should remain visible in sustainability reporting even if no direct operational anomaly is active.",
+        rationale: "Environmental signals confirm a Scope 3 contribution. It should remain in sustainability reporting even when no direct operational anomaly is active.",
         owner: "Sustainability / Reporting",
         confidence: 0.8,
-        expected_impact: { energy_kwh: "-", co2_kg: "improve visibility", water_m3: "-" },
+        expected_impact: { energy_kwh: "-", co2_kg: "improve reporting clarity", water_m3: "-" },
         financial_effect: { cost_saving_try: "reporting value" }
       });
     }
@@ -449,8 +449,8 @@
           "Executive action is recommended.",
           "Keep the current batch under observation, validate machine load, and confirm whether energy and water anomalies are process-driven or route-driven.",
           envFlags.carbon_hotspot ? "Carbon exposure is now material enough to influence CFO and sustainability attention." : null,
-          envFlags.waste_pressure ? "Waste and wastewater pressure should remain visible at CEO/compliance level." : null,
-          envFlags.scope3_visible ? "Scope 3 contribution should remain visible in the sustainability narrative." : null
+          envFlags.waste_pressure ? "Waste and wastewater exposure should remain under CEO and compliance review." : null,
+          envFlags.scope3_visible ? "Scope 3 contribution should remain part of the sustainability narrative." : null
         ].filter(Boolean).join(" ")
       : "No escalation is required. Continue live monitoring and wait for the external AI brain endpoint to resume.";
 
@@ -602,12 +602,12 @@
                     ? esc(
                         "Environmental signal: "
                         + [
-                            sustainability.environmental_flags?.carbon_hotspot ? "carbon hotspot visible" : null,
-                            sustainability.environmental_flags?.waste_pressure ? "waste compliance visible" : null,
-                            sustainability.environmental_flags?.scope3_visible ? "scope 3 exposure visible" : null
+                            sustainability.environmental_flags?.carbon_hotspot ? "carbon hotspot flagged" : null,
+                            sustainability.environmental_flags?.waste_pressure ? "waste compliance flagged" : null,
+                            sustainability.environmental_flags?.scope3_visible ? "scope 3 exposure noted" : null
                           ].filter(Boolean).join(" · ")
                       )
-                    : esc("Environmental signal: no material environmental pressure flagged.")
+                    : esc("Environmental signal: no material environmental issue flagged.")
                 }
               </div>
             </div>
