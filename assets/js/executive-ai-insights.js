@@ -301,9 +301,23 @@
       ? "Machine load is operating in a high-risk zone. Capacity fit and runtime resilience should be validated immediately."
       : "System resilience is acceptable. No critical overload state is visible in the local runtime.";
 
+    const envScoreDelta = {
+      ceo:
+        (envFlags.waste_pressure ? 6 : 0) +
+        (envFlags.carbon_hotspot ? 3 : 0) +
+        (envFlags.scope3_visible ? 2 : 0),
+      cfo:
+        (envFlags.carbon_hotspot ? 8 : 0) +
+        (envFlags.scope3_visible ? 3 : 0),
+      cto:
+        (envFlags.waste_pressure ? 2 : 0) +
+        (envFlags.scope3_visible ? 4 : 0)
+    };
+
     const ceoScore = Math.min(100,
       (latestByType.get("water_usage_high") ? 55 : 15) +
       (envFlags.waste_pressure ? 18 : 0) +
+      envScoreDelta.ceo +
       Math.max(0, Number(utilities.water_m3 || 0) - 20)
     );
 
@@ -311,11 +325,13 @@
       (latestByType.get("energy_spike") ? 55 : 15) +
       (envFlags.carbon_hotspot ? 18 : 0) +
       (envFlags.scope3_visible ? 6 : 0) +
+      envScoreDelta.cfo +
       Math.max(0, Math.round((Number(utilities.energy_kwh || 0) - 1000) / 20))
     );
 
     const ctoScore = Math.min(100,
       (latestByType.get("machine_overload") ? 65 : 15) +
+      envScoreDelta.cto +
       Math.max(0, Number(production.load_pct || 0) - 50)
     );
 
