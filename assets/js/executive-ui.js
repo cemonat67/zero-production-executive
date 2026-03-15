@@ -1660,16 +1660,35 @@ var scenarioRiskEl = byId("ceoModalScenarioRisk");
         modalBody.appendChild(wrap);
       }
 
-      function openExecModal(role) {
+      function openExecModal(role, mode) {
         const modalBackdrop = byId("execModalBackdrop");
         const modalTitle = byId("execModalTitle");
         const modalSub = byId("execModalSub");
         const modalBody = byId("execModalBody");
         if (!modalBackdrop || !modalTitle || !modalSub || !modalBody) return;
         const cfg = buildModal(role);
+        const viewMode = mode || "default";
+
         modalTitle.textContent = cfg.title;
         modalSub.textContent = cfg.sub;
         modalBody.innerHTML = cfg.html;
+        modalBody.setAttribute("data-view-mode", viewMode);
+
+        if (viewMode === "trend") {
+          const trendTitleMap = {
+            ceo: "CEO Trend Detail",
+            cfo: "CFO Trend Detail",
+            cto: "CTO Trend Detail"
+          };
+          const trendSubMap = {
+            ceo: "Focused view — sustainability signal movement, pressure points and executive interpretation",
+            cfo: "Focused view — exposure trend, signal direction and financial decision timing",
+            cto: "Focused view — resilience trend, integrity drift and system stabilization posture"
+          };
+          modalTitle.textContent = trendTitleMap[role] || cfg.title;
+          modalSub.textContent = trendSubMap[role] || cfg.sub;
+        }
+
         const detailHrefMap = {
           ceo: "ceo-insight.html",
           cfo: "cfo-impact.html",
@@ -1684,8 +1703,10 @@ var scenarioRiskEl = byId("ceoModalScenarioRisk");
           wrap.innerHTML = '<a href="' + detailHrefMap[role] + '" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:12px 16px;border-radius:12px;text-decoration:none;font-weight:700;letter-spacing:.01em;color:#09111a;background:linear-gradient(135deg,#f9ba00,#ffd15c);border:1px solid rgba(249,186,0,.45);box-shadow:0 10px 24px rgba(249,186,0,.15);">View Full Analysis</a>';
           modalBody.appendChild(wrap);
         }
+
         modalBackdrop.classList.add("open");
         modalBackdrop.setAttribute("aria-hidden", "false");
+
         setTimeout(function(){
           if (role === "cfo") {
             bindCfoPeriodControls();
@@ -1699,6 +1720,22 @@ var scenarioRiskEl = byId("ceoModalScenarioRisk");
             bindCtoScenarioControls();
           }
           appendExecBriefingLink(role);
+
+          if (viewMode === "trend") {
+            setTimeout(function(){
+              var target =
+                byId("execModalChart") ||
+                modalBody.querySelector("#execModalChart") ||
+                modalBody.querySelector("canvas") ||
+                Array.from(modalBody.querySelectorAll("h3")).find(function(el){
+                  return /period view|trend|trajectory/i.test((el.textContent || "").trim());
+                });
+
+              if (target && typeof target.scrollIntoView === "function") {
+                target.scrollIntoView({ behavior: "smooth", block: "center" });
+              }
+            }, 120);
+          }
         }, 30);
       }
 
@@ -1819,6 +1856,21 @@ var scenarioRiskEl = byId("ceoModalScenarioRisk");
         if (!el) return;
         el.addEventListener("click", function(){
           openExecModal(el.getAttribute("data-role") || "ceo");
+        });
+      });
+
+      [
+        { id: "ceoMiniTrend", role: "ceo" },
+        { id: "cfoSpark", role: "cfo" },
+        { id: "ctoMiniPulse", role: "cto" }
+      ].forEach(function(item){
+        var canvas = byId(item.id);
+        if (!canvas) return;
+        canvas.style.cursor = "zoom-in";
+        canvas.setAttribute("title", "Open detailed trend");
+        canvas.addEventListener("click", function(e){
+          if (e && typeof e.stopPropagation === "function") e.stopPropagation();
+          openExecModal(item.role, "trend");
         });
       });
 
@@ -2750,19 +2802,156 @@ document.getElementById("openDataIntakeBtn")?.addEventListener("click",function(
     setFeedBadge(true);
   }
 
+  function deriveFactoryOSMetrics(data){
+    const machine = data.asset_id || "Jet-Dye-03";
+    const line = (data.process_line || "").toLowerCase();
+
+    const defaults = {
+      load_pct: 72,
+      energy_kwh: 1850,
+      water_m3: 42,
+      co2_kg: 920
+    };
+
+    if (line.includes("dye")) {
+      defaults.load_pct = 78;
+      defaults.energy_kwh = 1980;
+      defaults.water_m3 = 48;
+      defaults.co2_kg = 960;
+    } else if (line.includes("finish")) {
+      defaults.load_pct = 69;
+      defaults.energy_kwh = 1420;
+      defaults.water_m3 = 18;
+      defaults.co2_kg = 640;
+    } else if (line.includes("wash")) {
+      defaults.load_pct = 74;
+      defaults.energy_kwh = 1320;
+      defaults.water_m3 = 55;
+      defaults.co2_kg = 710;
+    }
+
+    if (String(machine).toUpperCase().includes("JET01")) {
+      defaults.load_pct = 88;
+      defaults.energy_kwh = 1860;
+      defaults.water_m3 = 44;
+      defaults.co2_kg = 905;
+    }
+
+    const num = v => Number.isFinite(Number(v)) ? Number(v) : null;
+
+    return {
+      machine,
+      load_pct: num(data.load_pct) ?? defaults.load_pct,
+      energy_kwh: num(data.energy_kwh) ?? defaults.energy_kwh,
+      water_m3: num(data.water_m3) ?? defaults.water_m3,
+      co2_kg: num(data.co2_kg) ?? defaults.co2_kg
+    };
+  }
+
   async function loadLiveMonitor(){
     try {
       const res = await fetch(STATUS_URL + "?ts=" + Date.now(), { cache: "no-store" });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
+      const metrics = deriveFactoryOSMetrics(data);
+
+      /* FactoryOS pipeline */
+      if(window.FactoryOS){
+
+        FactoryOS.set("production.machine", metrics.machine);
+        FactoryOS.set("production.load_pct", metrics.load_pct);
+
+        FactoryOS.set("utilities.energy_kwh", metrics.energy_kwh);
+        FactoryOS.set("utilities.water_m3", metrics.water_m3);
+
+        FactoryOS.set("sustainability.co2_kg", metrics.co2_kg);
+
+      }
       updateLiveMonitor(data);
     } catch (err) {
       setFeedBadge(false);
       setText("liveUpdateValue", "unreachable");
+
+      /* FactoryOS demo fallback */
+      if(window.FactoryOS){
+
+        FactoryOS.set("production.machine","Jet-Dye-03");
+        FactoryOS.set("production.load_pct",72);
+
+        FactoryOS.set("utilities.energy_kwh",1850);
+        FactoryOS.set("utilities.water_m3",42);
+
+        FactoryOS.set("sustainability.co2_kg",920);
+
+      }
     }
   }
 
   loadLiveMonitor();
   setInterval(loadLiveMonitor, 3000);
 })();
+
+
+/* Zero@Production CXO Signal Bridge */
+
+setInterval(()=>{
+
+if(!window.FactoryOS) return
+if(!FactoryOS.state) return
+
+const signals = FactoryOS.state.signals || []
+
+signals.forEach(s=>{
+
+/* CFO energy spike */
+if(s.type==="energy_spike"){
+const cfo=document.querySelector(".cfo-card")
+if(cfo){
+cfo.classList.add("risk-warning")
+}
+}
+
+/* CEO water anomaly */
+if(s.type==="water_usage_high"){
+const ceo=document.querySelector(".ceo-card")
+if(ceo){
+ceo.classList.add("risk-warning")
+}
+}
+
+})
+
+},2000)
+
+
+/* Zero@Production CXO signal → UI bridge */
+
+setInterval(()=>{
+
+if(!window.FactoryOS) return
+if(!FactoryOS.state) return
+
+const signals = FactoryOS.state.signals || []
+
+signals.forEach(sig=>{
+
+/* CEO wastewater anomaly */
+if(sig.type==="water_usage_high"){
+const ceo=document.querySelector('[data-role="ceo-card"], .ceo-card')
+if(ceo){
+ceo.style.boxShadow="0 0 0 2px rgba(255,120,0,0.7)"
+}
+}
+
+/* CFO energy spike */
+if(sig.type==="energy_spike"){
+const cfo=document.querySelector('[data-role="cfo-card"], .cfo-card')
+if(cfo){
+cfo.style.boxShadow="0 0 0 2px rgba(255,180,0,0.7)"
+}
+}
+
+})
+
+},2000)
 

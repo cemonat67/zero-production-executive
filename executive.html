@@ -26,6 +26,12 @@
   <link rel="stylesheet" href="assets/css/executive.css">
   <link rel="stylesheet" href="assets/css/executive-production-decision.css">
 
+  <style>
+    .actions-toolbar::-webkit-scrollbar{ display:none; }
+  </style>
+
+  
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -63,61 +69,7 @@ window.ZERO_CONFIG = {
         <img src="assets/img/plogo.svg" class="brand-logo" alt="Zero@Production logo">
         <div class="brand-title">
           <h1>Zero<span class="brand-at">@</span>Production</h1>
-          <div class="sub" id="execSubtitle">Sustainable decision support system for production stage
-<div class="ceo-card" style="margin-top:16px;">
-  <div style="font-weight:700;margin-bottom:10px;">
-<div style="margin-top:18px;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;">
-<div style="font-weight:700;margin-bottom:8px;">Board Intervention Threshold<div class="threshold-marker threshold-marker-premium"></div>
-</div>
-
-<div style="height:6px;background:rgba(255,255,255,0.08);border-radius:999px;position:relative;overflow:visible;">
-<div id="boardRiskBar" style="height:100%;width:0%;background:#f9ba00;"></div>
-</div>
-
-<div style="font-size:12px;margin-top:6px;color:#9fb0c8;">
-
-</div>
-</div>
-
-
-<div style="margin-top:22px;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;">
-<div style="font-weight:700;margin-bottom:12px;">Risk Propagation</div>
-
-<div class="risk-flow">
-<div class="risk-node">Energy volatility</div>
-<div class="risk-arrow">↓</div>
-<div class="risk-node">Production delay</div>
-<div class="risk-arrow">↓</div>
-<div class="risk-node">Margin compression</div>
-<div class="risk-arrow">↓</div>
-<div class="risk-node">Strategic risk</div>
-</div>
-</div>
-
-Risk Drivers</div>
-
-  <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-    <span>Energy cost volatility</span>
-    <span style="color:#f9ba00;font-weight:600;">+14</span>
-  </div>
-
-  <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-    <span>Supply delay</span>
-    <span style="color:#f9ba00;font-weight:600;">+8</span>
-  </div>
-
-  <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-    <span>Wastewater compliance</span>
-    <span style="color:#f9ba00;font-weight:600;">+5</span>
-  </div>
-
-  <div style="display:flex;justify-content:space-between;padding:6px 0;">
-    <span>Quality deviation</span>
-    <span style="color:#f9ba00;font-weight:600;">+3</span>
-  </div>
-</div>
-
-</div>
+                    <div class="sub" id="execSubtitle">Sustainable decision support system for production stage</div>
         </div>
       </div>
       <div class="chips">
@@ -127,15 +79,16 @@ Risk Drivers</div>
         <span class="chip">Lens: <b id="execLens">overview</b></span>
         <span class="chip">Risk: <b id="execRisk">MONITOR</b></span>
       </div>
-      <div class="actions">
-        <a class="btn header-green" id="btnBackDashboard" href="index.html">Back</a>
-        <button class="btn primary header-green" id="openEsgDataEntryBtn" type="button">Enter Consumption Data</button>
-        <button class="btn header-green" id="openDataIntakeBtn" type="button">Data Intake</button>
-        
-        <a class="btn header-green" id="btnGoFabric" href="fabric-dpp.html">Fabric</a>
-        <a class="btn primary header-green" id="btnGoFinishing" href="finishing-dpp.html">Finishing</a>
-        <button class="btn header-green" id="openAiInsightsBtn" type="button">AI Insights</button>
-      </div>
+    </div>
+
+    <div class="actions actions-toolbar" style="display:flex;flex-wrap:nowrap;gap:4px;align-items:center;overflow:hidden;white-space:nowrap;padding:8px 0 2px;">
+      <a class="btn header-green" id="btnBackDashboard" href="index.html" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Back</a>
+      <button class="btn primary header-green" id="openEsgDataEntryBtn" type="button" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Consumption Data</button>
+      <button class="btn header-green" id="openDataIntakeBtn" type="button" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Data Intake</button>
+      <a class="btn header-green" id="btnGoFabric" href="fabric-dpp.html" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Fabric</a>
+      <a class="btn primary header-green" id="btnGoFinishing" href="finishing-dpp.html" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Finishing</a>
+      <button class="btn header-green" id="openAiInsightsBtn" type="button" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">AI Insights</button>
+      <a class="btn header-green" id="btnReportsCenter" href="reports.html" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Reports</a>
     </div>
 
     <div class="grid exec">
@@ -760,8 +713,10 @@ window.addEventListener("load", function () {
 
 
 <script src="assets/js/executive-data-contract.js"></script>
-<script src="assets/js/executive-ai-insights.js?v=20260315b"></script>
-  <script src="assets/js/executive-ui.js?v=20260315b"></script>
+<script src="assets/js/executive-ai-insights.js?v=20260315f?v=20260315b"></script>
+  <script src="assets/js/factory-os-core.js?v=20260315e"></script>
+  <script src="assets/js/factory-os-signals.js?v=20260315g"></script>
+  <script src="assets/js/executive-ui.js?v=20260315f"></script>
 
   <div class="wrap">
   <!-- Production Decision Engine -->
@@ -795,97 +750,8 @@ window.addEventListener("load", function () {
   </section>
 
 
-  <!-- Report Generator Lite -->
-  <section id="zpReportGeneratorLite" class="zp-report-shell" aria-label="Generate Custom Report">
-    <div class="zp-alt-head">
-      <div>
-        <div class="zp-pde-kicker">Reporting Layer</div>
-        <h2 class="zp-alt-title">Generate Custom Report</h2>
-        <p class="zp-alt-sub">Build a simple executive report view by date range, machine, process, batch and KPI selection.</p>
-      </div>
-      <div id="zpReportBadge" class="zp-pde-badge">Lite</div>
-    </div>
-
-    <div class="zp-report-body">
-      <div class="zp-report-grid">
-        <label class="zp-report-field">
-          <span>Date From</span>
-          <input type="date" id="reportDateFrom">
-        </label>
-        <label class="zp-report-field">
-          <span>Date To</span>
-          <input type="date" id="reportDateTo">
-        </label>
-        <label class="zp-report-field">
-          <span>Machine</span>
-          <select id="reportMachine">
-            <option value="">All Machines</option>
-            <option>Jigger 01</option>
-            <option>Jet 02</option>
-            <option>Jet 04</option>
-            <option>Jet 06</option>
-            <option>Stenter 01</option>
-          </select>
-        </label>
-        <label class="zp-report-field">
-          <span>Process</span>
-          <select id="reportProcess">
-            <option value="">All Processes</option>
-            <option>Dyeing</option>
-            <option>Finishing</option>
-            <option>Washing</option>
-            <option>Drying</option>
-          </select>
-        </label>
-        <label class="zp-report-field">
-          <span>Product / Batch</span>
-          <input type="text" id="reportBatch" placeholder="e.g. EKOTEN-2401-B01">
-        </label>
-        <label class="zp-report-field">
-          <span>KPI Selection</span>
-          <select id="reportKpi">
-            <option value="all">All KPIs</option>
-            <option value="energy">Energy</option>
-            <option value="water">Water</option>
-            <option value="co2">CO₂</option>
-            <option value="efficiency">Efficiency</option>
-          </select>
-        </label>
-      </div>
-
-      <div class="zp-report-actions">
-        <button id="btnGenerateReport" class="zp-report-btn primary" type="button">Generate Report</button>
-        <button id="btnPrintReport" class="zp-report-btn" type="button">Print View</button>
-        <button id="btnExportPdf" class="zp-report-btn" type="button">Export to PDF</button>
-        <button id="btnExportExcel" class="zp-report-btn" type="button">Export to Excel</button>
-      </div>
-
-      <div id="zpReportOutput" class="zp-report-output">
-        <div class="zp-pde-loading">Report output will appear here…</div>
-      </div>
-    </div>
-  </section>
-
 <script src="assets/js/executive-production-decision.js"></script>
   <script src="assets/js/executive-production-alternatives.js"></script>
-  <script src="assets/js/executive-report-generator-lite.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="assets/js/executive-report-generator.js"></script>
-  <script>
-  window.addEventListener("DOMContentLoaded", function () {
-    if (window.ZPExecutiveReportGenerator) {
-      window.ZPExecutiveReportGenerator.init();
-      var btn = document.getElementById("btnExecutiveReportGenerator");
-      if (btn) {
-        btn.addEventListener("click", function () {
-          window.ZPExecutiveReportGenerator.open("executive_summary");
-        });
-      }
-    }
-  });
-</script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </body>
 </html>
 

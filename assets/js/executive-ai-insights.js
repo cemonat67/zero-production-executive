@@ -239,6 +239,262 @@
     ].join("");
   }
 
+  function renderLocalSignalFallback() {
+    const state = window.FactoryOS?.state || {};
+    const signals = Array.isArray(state.signals) ? state.signals : [];
+    const resolvedSignals = Array.isArray(state.resolvedSignals) ? state.resolvedSignals : [];
+    const production = state.production || {};
+    const utilities = state.utilities || {};
+    const sustainability = state.sustainability || {};
+
+    const latestByType = new Map();
+    signals.forEach(sig => {
+      if (sig && sig.type) latestByType.set(sig.type, sig);
+    });
+
+    const activeSignals = [
+      latestByType.get("water_usage_high"),
+      latestByType.get("energy_spike"),
+      latestByType.get("machine_overload")
+    ].filter(Boolean);
+
+    const recentSignals = signals.slice(-10).reverse();
+
+    const overallStatus = activeSignals.some(sig => String(sig.severity || "").toLowerCase() === "critical")
+      ? "critical"
+      : activeSignals.length ? "monitor" : "ok";
+
+    const headline = activeSignals.length
+      ? activeSignals.map(sig => `${sig.level}: ${sig.type}`).join(" | ")
+      : "No active local FactoryOS signals";
+
+    const summary = activeSignals.length
+      ? "Local FactoryOS runtime detected executive-level operational pressure. API brain is unavailable, so this summary is generated from live runtime metrics and active signals."
+      : "AI endpoint is unavailable, but local FactoryOS runtime is stable enough to produce an executive fallback summary.";
+
+    const ceoView = latestByType.get("water_usage_high")
+      ? "Water consumption is above the expected operating envelope. Sustainability posture requires monitoring before the next cycle."
+      : "Sustainability posture is currently stable based on local runtime telemetry.";
+
+    const cfoView = latestByType.get("energy_spike")
+      ? "Energy intensity is elevated. Financial exposure is likely rising through utility cost pressure and margin erosion."
+      : "No immediate energy-driven financial escalation is visible in the local runtime.";
+
+    const ctoView = latestByType.get("machine_overload")
+      ? "Machine load is operating in a high-risk zone. Capacity fit and runtime resilience should be validated immediately."
+      : "System resilience is acceptable. No critical overload state is visible in the local runtime.";
+
+    const ceoScore = Math.min(100,
+      (latestByType.get("water_usage_high") ? 55 : 15) +
+      Math.max(0, Number(utilities.water_m3 || 0) - 20)
+    );
+
+    const cfoScore = Math.min(100,
+      (latestByType.get("energy_spike") ? 55 : 15) +
+      Math.max(0, Math.round((Number(utilities.energy_kwh || 0) - 1000) / 20))
+    );
+
+    const ctoScore = Math.min(100,
+      (latestByType.get("machine_overload") ? 65 : 15) +
+      Math.max(0, Number(production.load_pct || 0) - 50)
+    );
+
+    const signalCards = activeSignals.length
+      ? activeSignals.map(sig => renderSignalCard({
+          code: sig.type || "SIGNAL",
+          severity: sig.severity || "medium",
+          message: sig.message || "Signal detected",
+          dimension: sig.level || "EXEC",
+          value: sig.severity || "-",
+          unit: "",
+          baseline: "runtime threshold",
+          delta_pct: "-",
+          action_hint:
+            sig.type === "water_usage_high" ? "Validate water source, recipe and wastewater load." :
+            sig.type === "energy_spike" ? "Check machine efficiency, steam profile and batch energy footprint." :
+            sig.type === "machine_overload" ? "Review machine load, batch routing and near-term capacity constraints." :
+            "Review signal and escalate if needed."
+        })).join("")
+      : `<div class="ai-empty">No active local signals.</div>`;
+
+    const actions = [];
+    if (latestByType.get("water_usage_high")) {
+      actions.push({
+        title: "Review water-intensive process conditions",
+        priority: "high",
+        rationale: "Water usage signal is active. Investigate recipe, wash cycle and wastewater burden before the next batch.",
+        owner: "CEO / Sustainability",
+        confidence: 0.82,
+        expected_impact: { energy_kwh: "-", co2_kg: "-", water_m3: "reduce spike" },
+        financial_effect: { cost_saving_try: "indirect" }
+      });
+    }
+    if (latestByType.get("energy_spike")) {
+      actions.push({
+        title: "Validate energy anomaly on current machine",
+        priority: "high",
+        rationale: "Energy spike suggests elevated cost pressure and possible efficiency loss on the current production route.",
+        owner: "CFO / Operations",
+        confidence: 0.86,
+        expected_impact: { energy_kwh: "reduce spike", co2_kg: "reduce related CO₂", water_m3: "-" },
+        financial_effect: { cost_saving_try: "medium" }
+      });
+    }
+    if (latestByType.get("machine_overload")) {
+      actions.push({
+        title: "Re-check machine load and routing",
+        priority: "critical",
+        rationale: "Machine overload can propagate into downtime risk, schedule instability and production loss.",
+        owner: "CTO / Production",
+        confidence: 0.91,
+        expected_impact: { energy_kwh: "stabilize", co2_kg: "stabilize", water_m3: "-" },
+        financial_effect: { cost_saving_try: "high" }
+      });
+    }
+
+    const actionsHtml = actions.length
+      ? actions.map(renderActionCard).join("")
+      : `<div class="ai-empty">No immediate recommended actions.</div>`;
+
+    const decisionNote = activeSignals.length
+      ? "Executive action is recommended. Keep the current batch under observation, validate machine load, and confirm whether energy and water anomalies are process-driven or route-driven."
+      : "No escalation is required. Continue live monitoring and wait for the external AI brain endpoint to resume.";
+
+    return `
+      <div class="ai-v2-wrap">
+        <div class="ai-hero-status">
+          <div class="ai-hero-top">
+            <strong>Local Brain Fallback</strong>
+            ${renderSeverityPill(overallStatus)}
+          </div>
+          <div class="ai-hero-headline">${esc(headline)}</div>
+          <div class="ai-hero-text">${esc(summary)}</div>
+        </div>
+
+        ${renderV2Section("Executive Views", `
+          <div class="ai-card-stack">
+            <div class="ai-card">
+              <div class="ai-card-top">
+                <strong>Executive Scores</strong>
+                ${renderSeverityPill(overallStatus)}
+              </div>
+              <div class="ai-card-body">
+                <div class="ai-meta-grid">
+                  ${renderKV("CEO Score", ceoScore + " / 100")}
+                  ${renderKV("CFO Score", cfoScore + " / 100")}
+                  ${renderKV("CTO Score", ctoScore + " / 100")}
+                  ${renderKV("Signal Count", activeSignals.length)}
+                </div>
+              </div>
+            </div>
+            <div class="ai-card">
+              <div class="ai-card-top">
+                <strong>CEO View</strong>
+                ${renderSeverityPill(latestByType.get("water_usage_high") ? "high" : "ok")}
+              </div>
+              <div class="ai-card-body">
+                <div class="ai-card-message">${esc(ceoView)}</div>
+              </div>
+            </div>
+            <div class="ai-card">
+              <div class="ai-card-top">
+                <strong>CFO View</strong>
+                ${renderSeverityPill(latestByType.get("energy_spike") ? "high" : "ok")}
+              </div>
+              <div class="ai-card-body">
+                <div class="ai-card-message">${esc(cfoView)}</div>
+              </div>
+            </div>
+            <div class="ai-card">
+              <div class="ai-card-top">
+                <strong>CTO View</strong>
+                ${renderSeverityPill(latestByType.get("machine_overload") ? "critical" : "ok")}
+              </div>
+              <div class="ai-card-body">
+                <div class="ai-card-message">${esc(ctoView)}</div>
+              </div>
+            </div>
+          </div>
+        `)}
+
+        ${renderV2Section("Active Signals", `<div class="ai-card-stack">${signalCards}</div>`)}
+
+        ${renderV2Section("Recent Signal Timeline", `
+          <div class="ai-card-stack">
+            ${
+              recentSignals.length
+                ? recentSignals.map(sig => `
+                    <div class="ai-card">
+                      <div class="ai-card-top">
+                        <strong>${esc(sig.level || "EXEC")}</strong>
+                        ${renderSeverityPill(sig.severity || "medium")}
+                      </div>
+                      <div class="ai-card-body">
+                        <div class="ai-card-message">${esc(sig.message || sig.type || "Signal event")}</div>
+                        <div class="ai-meta-grid">
+                          ${renderKV("Type", sig.type || "-")}
+                          ${renderKV("Signal ID", sig.id || "-")}
+                          ${renderKV("Timestamp", sig.ts || "-")}
+                          ${renderKV("Status", "recorded")}
+                        </div>
+                      </div>
+                    </div>
+                  `).join("")
+                : `<div class="ai-empty">No recent local signal history.</div>`
+            }
+          </div>
+        `)}
+
+        ${renderV2Section("Recently Resolved", `
+          <div class="ai-card-stack">
+            ${
+              resolvedSignals.length
+                ? resolvedSignals.slice(-10).reverse().map(sig => `
+                    <div class="ai-card">
+                      <div class="ai-card-top">
+                        <strong>${esc(sig.level || "EXEC")}</strong>
+                        ${renderSeverityPill("ok")}
+                      </div>
+                      <div class="ai-card-body">
+                        <div class="ai-card-message">${esc(sig.message || sig.type || "Resolved signal")}</div>
+                        <div class="ai-meta-grid">
+                          ${renderKV("Type", sig.type || "-")}
+                          ${renderKV("Resolved At", sig.resolved_at || "-")}
+                          ${renderKV("Source Signal", sig.source_signal_id || "-")}
+                          ${renderKV("Status", "resolved")}
+                        </div>
+                      </div>
+                    </div>
+                  `).join("")
+                : `<div class="ai-empty">No recently resolved local signals.</div>`
+            }
+          </div>
+        `)}
+
+        ${renderV2Section("Recommended Actions", `<div class="ai-card-stack">${actionsHtml}</div>`)}
+
+        ${renderV2Section("Local Decision Note", `
+          <div class="ai-card ai-card-decision">
+            <div class="ai-card-body">
+              <div class="ai-card-message">${esc(decisionNote)}</div>
+            </div>
+          </div>
+        `)}
+
+        ${renderV2Section("FactoryOS Runtime", `
+          <div class="ai-meta-grid">
+            ${renderKV("Machine", production.machine || "-")}
+            ${renderKV("Load %", production.load_pct != null ? production.load_pct : "-")}
+            ${renderKV("Energy kWh", utilities.energy_kwh != null ? utilities.energy_kwh : "-")}
+            ${renderKV("Water m3", utilities.water_m3 != null ? utilities.water_m3 : "-")}
+            ${renderKV("CO₂ kg", sustainability.co2_kg != null ? sustainability.co2_kg : "-")}
+            ${renderKV("Wastewater Risk", sustainability.wastewater_risk || "-")}
+          </div>
+        `)}
+      </div>
+    `;
+  }
+
   function renderSuccess(view) {
 
     if (view?.version === "v2") {
@@ -393,7 +649,7 @@
       const view = window.ZeroExecutiveDataContract.normalizeBrainPayload(data.brain || data);
       updateModalBody(renderSuccess(view));
     } catch (err) {
-      updateModalBody(renderError("AI Insights API is not available in this environment. Demo mode can continue without live brain data."));
+      updateModalBody(renderLocalSignalFallback());
     }
   }
 

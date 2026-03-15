@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zero@Production — Reports Center</title>
+  <link rel="stylesheet" href="assets/css/executive.css">
+  <style>
+    :root{
+      --zp-bg:#08111f;
+      --zp-panel:#0d1728;
+      --zp-panel-2:#101c31;
+      --zp-border:rgba(255,255,255,.08);
+      --zp-text:#eaf1ff;
+      --zp-muted:#9fb0c8;
+      --zp-green:#005530;
+      --zp-navy:#02154e;
+      --zp-orange:#f9ba00;
+      --zp-red:#D51635;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:radial-gradient(circle at top, rgba(249,186,0,.10), transparent 20%), linear-gradient(180deg,#07101c 0%,#08111f 100%);
+      color:var(--zp-text);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    .reports-wrap{
+      max-width:1380px;
+      margin:0 auto;
+      padding:28px 22px 56px;
+    }
+    .reports-topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:24px;
+      flex-wrap:wrap;
+    }
+    .reports-brand{
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+    }
+    .reports-brand-logo{
+      width:56px;
+      height:56px;
+      object-fit:contain;
+      background:#fff;
+      border-radius:14px;
+      padding:8px;
+      box-shadow:0 10px 30px rgba(0,0,0,.24);
+    }
+    .reports-kicker{
+      color:var(--zp-orange);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:8px;
+    }
+    .reports-title{
+      margin:0;
+      font-size:34px;
+      line-height:1.08;
+      letter-spacing:-.02em;
+    }
+    .reports-sub{
+      margin-top:10px;
+      max-width:860px;
+      color:var(--zp-muted);
+      line-height:1.6;
+      font-size:15px;
+    }
+    .reports-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .reports-btn{
+      appearance:none;
+      border:none;
+      text-decoration:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-weight:700;
+      letter-spacing:.01em;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .reports-btn-primary{
+      background:var(--zp-orange);
+      color:#0d1117;
+    }
+    .reports-btn-secondary{
+      background:rgba(255,255,255,.05);
+      color:var(--zp-text);
+      border:1px solid var(--zp-border);
+    }
+    .reports-summary{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-bottom:24px;
+    }
+    .summary-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.025));
+      border:1px solid var(--zp-border);
+      border-radius:18px;
+      padding:16px 18px;
+      box-shadow:0 12px 32px rgba(0,0,0,.16);
+    }
+    .summary-label{
+      color:var(--zp-muted);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:10px;
+    }
+    .summary-value{
+      font-size:24px;
+      font-weight:800;
+      line-height:1.1;
+    }
+    .summary-note{
+      margin-top:8px;
+      color:var(--zp-muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+    .reports-layout{
+      display:grid;
+      grid-template-columns:1.3fr .9fr;
+      gap:18px;
+      align-items:start;
+    }
+    .reports-panel{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--zp-border);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:0 18px 40px rgba(0,0,0,.18);
+    }
+    .panel-kicker{
+      color:var(--zp-orange);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      margin-bottom:8px;
+    }
+    .panel-title{
+      margin:0;
+      font-size:24px;
+      line-height:1.15;
+    }
+    .panel-sub{
+      margin-top:10px;
+      color:var(--zp-muted);
+      line-height:1.6;
+      font-size:14px;
+    }
+    .report-catalog{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+    .report-card{
+      border:1px solid var(--zp-border);
+      border-radius:20px;
+      background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02));
+      padding:18px;
+      min-height:220px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .report-badges{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .report-badge{
+      display:inline-flex;
+      align-items:center;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      color:var(--zp-text);
+    }
+    .report-card h3{
+      margin:0;
+      font-size:18px;
+      line-height:1.25;
+    }
+    .report-card p{
+      margin:0;
+      color:var(--zp-muted);
+      font-size:14px;
+      line-height:1.6;
+      flex:1;
+    }
+    .report-meta{
+      color:#cdd8ea;
+      font-size:13px;
+      line-height:1.55;
+      padding-top:6px;
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+    .report-card-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:2px;
+    }
+    .report-mini-btn{
+      appearance:none;
+      border:none;
+      border-radius:12px;
+      padding:10px 12px;
+      font-weight:700;
+      cursor:pointer;
+      background:rgba(255,255,255,.06);
+      color:var(--zp-text);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .report-mini-btn.primary{
+      background:var(--zp-orange);
+      color:#0d1117;
+      border-color:transparent;
+    }
+    .generator-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      margin-top:18px;
+    }
+    .generator-field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .generator-field span{
+      font-size:13px;
+      color:#d8e3f4;
+      font-weight:700;
+    }
+    .generator-field input,
+    .generator-field select{
+      width:100%;
+      border-radius:14px;
+      border:1px solid var(--zp-border);
+      background:rgba(255,255,255,.05);
+      color:var(--zp-text);
+      padding:12px 14px;
+      font-size:14px;
+      outline:none;
+    }
+    .generator-checks{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:6px;
+    }
+    .generator-check{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--zp-muted);
+      font-size:14px;
+    }
+    .generator-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:6px;
+    }
+    .generator-note{
+      margin-top:16px;
+      padding:14px 16px;
+      border-radius:16px;
+      background:rgba(249,186,0,.08);
+      border:1px solid rgba(249,186,0,.2);
+      color:#f6deb0;
+      font-size:13px;
+      line-height:1.6;
+    }
+    .report-preview-shell{
+      margin-top:18px;
+      border:1px dashed rgba(255,255,255,.12);
+      border-radius:18px;
+      padding:16px;
+      background:rgba(255,255,255,.02);
+    }
+    .report-preview-title{
+      font-size:16px;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+    .report-preview-text{
+      color:var(--zp-muted);
+      line-height:1.65;
+      font-size:14px;
+    }
+    @media (max-width: 1120px){
+      .reports-layout{grid-template-columns:1fr}
+      .reports-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (max-width: 720px){
+      .reports-summary{grid-template-columns:1fr}
+      .report-catalog{grid-template-columns:1fr}
+      .reports-title{font-size:28px}
+    }
+  </style>
+</head>
+<body>
+  <div class="reports-wrap">
+    <div class="reports-topbar">
+      <div class="reports-brand">
+        <img src="assets/img/plogo.svg" alt="Zero@Production" class="reports-brand-logo">
+        <div>
+          <div class="reports-kicker">Reporting Layer</div>
+          <h1 class="reports-title">Executive Reports Center</h1>
+          <div class="reports-sub">
+            Pre-generated market-standard, Green Deal and customer-facing reports for Ekoten, plus a custom report generator for executive, finance, operations and compliance storytelling.
+          </div>
+        </div>
+      </div>
+      <div class="reports-actions">
+        <a class="reports-btn reports-btn-secondary" href="executive.html">Back to Executive Dashboard</a>
+        <button class="reports-btn reports-btn-primary" id="btnExecutiveReportGenerator" type="button">Open Report Generator</button>
+      </div>
+    </div>
+
+    <div class="reports-summary">
+      <div class="summary-card">
+        <div class="summary-label">Facility Scope</div>
+        <div class="summary-value">Ekoten</div>
+        <div class="summary-note">Primary sales demo facility with executive, sustainability and compliance narrative.</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Ready Templates</div>
+        <div class="summary-value">7</div>
+        <div class="summary-note">Balanced between market language, regulation language and buyer-facing customer packs.</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Target Personas</div>
+        <div class="summary-value">CEO · CFO · CTO</div>
+        <div class="summary-note">Also suitable for sustainability teams, plant management and customer review meetings.</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Output Mode</div>
+        <div class="summary-value">Print · PDF · CSV</div>
+        <div class="summary-note">Built for one-click meeting output, email attachment and board-room print flow.</div>
+      </div>
+    </div>
+
+    <div class="reports-layout">
+      <section class="reports-panel">
+        <div class="panel-kicker">Pre-Generated Reports</div>
+        <h2 class="panel-title">Market-ready report catalog</h2>
+        <div class="panel-sub">
+          These templates make the product look real in a sales meeting. They speak the language of buyers, executives and compliance teams without making the screen feel like a toy.
+        </div>
+
+        <div class="report-catalog">
+          <article class="report-card">
+            <div class="report-badges">
+              <span class="report-badge">Green Deal</span>
+              <span class="report-badge">Executive</span>
+            </div>
+            <h3>EU Green Deal Summary</h3>
+            <p>High-level sustainability, resource intensity and transition-readiness snapshot shaped for decision-makers and external discussion.</p>
+            <div class="report-meta"><b>Audience:</b> CEO, sustainability lead, customer meeting<br><b>Included:</b> resource intensity, transition posture, executive signals<br><b>Tone:</b> strategic / board-friendly<br><b>Ekoten Note:</b> positions the facility as transition-ready for buyer discussions</div>
+            <div class="report-card-actions">
+              <button class="report-mini-btn primary" type="button" data-report-open="executive_summary">Open</button>
+              <button class="report-mini-btn" type="button">Print</button>
+            </div>
+          </article>
+
+          <article class="report-card">
+            <div class="report-badges">
+              <span class="report-badge">CSRD</span>
+              <span class="report-badge">ESG</span>
+            </div>
+            <h3>CSRD / ESG Executive Summary</h3>
+            <p>Board-style summary of sustainability posture, operating signals, resource use and major compliance themes.</p>
+            <div class="report-meta"><b>Audience:</b> Board, ESG team, management<br><b>Included:</b> ESG posture, compliance signals, risk summary<br><b>Tone:</b> formal / audit-aware<br><b>Ekoten Note:</b> useful as a management-facing compliance bridge</div>
+            <div class="report-card-actions">
+              <button class="report-mini-btn primary" type="button" data-report-open="sustainability_compliance">Open</button>
+              <button class="report-mini-btn" type="button">Print</button>
+            </div>
+          </article>
+
+          <article class="report-card">
+            <div class="report-badges">
+              <span class="report-badge">Operations</span>
+              <span class="report-badge">Snapshot</span>
+            </div>
+            <h3>Sustainability Performance Snapshot</h3>
+            <p>Fast view of energy, water, CO₂ and efficiency posture, useful for weekly reviews and internal alignment.</p>
+            <div class="report-meta"><b>Audience:</b> Plant team, operations, leadership<br><b>Included:</b> energy, water, CO₂, efficiency snapshot<br><b>Tone:</b> operational / concise<br><b>Ekoten Note:</b> best for weekly plant review and pilot storytelling</div>
+            <div class="report-card-actions">
+              <button class="report-mini-btn primary" type="button" data-report-open="production_efficiency">Open</button>
+              <button class="report-mini-btn" type="button">Print</button>
+            </div>
+          </article>
+
+          <article class="report-card">
+            <div class="report-badges">
+              <span class="report-badge">Customer</span>
+              <span class="report-badge">Compliance</span>
+            </div>
+            <h3>Customer Compliance Pack</h3>
+            <p>Clean customer-facing pack that frames the facility as transparent, digitally traceable and operationally disciplined.</p>
+            <div class="report-meta"><b>Audience:</b> Buyer, sourcing, quality, compliance<br><b>Included:</b> supplier posture, traceability framing, operating discipline<br><b>Tone:</b> external / confidence-building<br><b>Ekoten Note:</b> supports customer-facing transparency narrative</div>
+            <div class="report-card-actions">
+              <button class="report-mini-btn primary" type="button" data-report-open="sustainability_compliance">Open</button>
+              <button class="report-mini-btn" type="button">Print</button>
+            </div>
+          </article>
+
+          <article class="report-card">
+            <div class="report-badges">
+              <span class="report-badge">Buyer</span>
+              <span class="report-badge">Textile</span>
+            </div>
+            <h3>Textile Buyer Standard Report</h3>
+            <p>Standardized supplier-facing view combining operations, sustainability and reporting discipline for textile customers.</p>
+            <div class="report-meta"><b>Audience:</b> Textile buyer, sourcing office<br><b>Included:</b> standard KPI set, sustainability posture, supplier discipline<br><b>Tone:</b> buyer-ready / commercial<br><b>Ekoten Note:</b> tailored to textile sourcing expectations</div>
+            <div class="report-card-actions">
+              <button class="report-mini-btn primary" type="button" data-report-open="executive_summary">Open</button>
+              <button class="report-mini-btn" type="button">Print</button>
+            </div>
+          </article>
+
+          <article class="report-card">
+            <div class="report-badges">
+              <span class="report-badge">Board</span>
+              <span class="report-badge">Finance</span>
+            </div>
+            <h3>Facility Board Report</h3>
+            <p>Concise board pack mixing production performance, cost exposure, sustainability posture and action narrative.</p>
+            <div class="report-meta"><b>Audience:</b> CEO, CFO, board members<br><b>Included:</b> board KPIs, exposure view, action summary<br><b>Tone:</b> executive / decision-led<br><b>Ekoten Note:</b> strongest format for leadership pitch moments</div>
+            <div class="report-card-actions">
+              <button class="report-mini-btn primary" type="button" data-report-open="financial_impact">Open</button>
+              <button class="report-mini-btn" type="button">Print</button>
+            </div>
+          </article>
+
+          <article class="report-card">
+            <div class="report-badges">
+              <span class="report-badge">Ekoten</span>
+              <span class="report-badge">Sales</span>
+            </div>
+            <h3>Ekoten Executive Report</h3>
+            <p>Sales-focused report version tailored for Ekoten, combining executive language, operating story and buyer-readiness framing.</p>
+            <div class="report-meta"><b>Audience:</b> Ekoten leadership, sales demo, pilot pitch<br><b>Included:</b> executive story, operational signals, buyer-readiness framing<br><b>Tone:</b> tailored / persuasive<br><b>Ekoten Note:</b> this is the sales weapon, not just a template</div>
+            <div class="report-card-actions">
+              <button class="report-mini-btn primary" type="button" data-report-open="executive_summary">Open</button>
+              <button class="report-mini-btn" type="button">Print</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="reports-panel">
+        <div class="panel-kicker">Generate Custom Report</div>
+        <h2 class="panel-title">Custom output builder</h2>
+        <div class="panel-sub">
+          Keep the first sales version simple: choose audience, scope and style, then generate a report that sounds intentional instead of generic.
+        </div>
+
+        <div class="generator-grid">
+          <label class="generator-field">
+            <span>Facility</span>
+            <select id="reportFacility">
+              <option>Ekoten</option>
+              <option>Demo Facility</option>
+              <option>Pilot Scope</option>
+            </select>
+          </label>
+
+          <label class="generator-field">
+            <span>Date Range</span>
+            <input type="text" id="reportDateRange" placeholder="e.g. Mar 01, 2026 - Mar 15, 2026">
+          </label>
+
+          <label class="generator-field">
+            <span>Persona</span>
+            <select id="reportPersona">
+              <option>CEO</option>
+              <option>CFO</option>
+              <option>CTO</option>
+              <option>Sustainability</option>
+              <option>Customer / Buyer</option>
+            </select>
+          </label>
+
+          <label class="generator-field">
+            <span>Template Type</span>
+            <select id="reportTemplateType">
+              <option value="executive_summary">Executive Summary</option>
+              <option value="financial_impact">Financial Impact</option>
+              <option value="sustainability_compliance">Sustainability Compliance</option>
+              <option value="production_efficiency">Production Efficiency</option>
+            </select>
+          </label>
+
+          <div class="generator-checks">
+            <label class="generator-check"><input type="checkbox" checked> Include charts</label>
+            <label class="generator-check"><input type="checkbox" checked> Include active signals</label>
+            <label class="generator-check"><input type="checkbox" checked> Include recommendations</label>
+            <label class="generator-check"><input type="checkbox"> Include customer-facing language</label>
+          </div>
+
+          <div class="generator-actions">
+            <button class="reports-btn reports-btn-primary" id="btnGenerateCustomReport" type="button">Generate Custom Report</button>
+            <button class="reports-btn reports-btn-secondary" id="btnPrintReportsPage" type="button">Print This Page</button>
+          </div>
+
+          <div class="generator-note">
+            This first sales version focuses on believable output, not endless options. Old-school truth: a sharp, credible report beats a giant form no one wants to fill.
+          </div>
+
+          <div class="report-preview-shell">
+            <div class="report-preview-title">Generator preview</div>
+            <div class="report-preview-text" id="customReportPreview">
+              Selected output will generate an executive-style report preview for Ekoten. Use the orange button above to open the main report generator modal.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="assets/js/executive-report-generator.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      if (window.ZPExecutiveReportGenerator) {
+        window.ZPExecutiveReportGenerator.init();
+
+        var modalBtn = document.getElementById("btnExecutiveReportGenerator");
+        if (modalBtn) {
+          modalBtn.addEventListener("click", function () {
+            var type = document.getElementById("reportTemplateType")?.value || "executive_summary";
+            window.ZPExecutiveReportGenerator.open(type);
+          });
+        }
+
+        document.querySelectorAll("[data-report-open]").forEach(function(btn){
+          btn.addEventListener("click", function(){
+            var type = btn.getAttribute("data-report-open") || "executive_summary";
+            window.ZPExecutiveReportGenerator.open(type);
+          });
+        });
+      }
+
+      function buildCustomPreview() {
+        var facility = document.getElementById("reportFacility")?.value || "Ekoten";
+        var persona = document.getElementById("reportPersona")?.value || "CEO";
+        var type = document.getElementById("reportTemplateType")?.value || "executive_summary";
+        var range = document.getElementById("reportDateRange")?.value || "Current reporting period";
+        var preview = document.getElementById("customReportPreview");
+        if (!preview) return;
+
+        var checks = document.querySelectorAll(".generator-check input[type='checkbox']");
+        var includeCharts = checks[0]?.checked ? "charts" : null;
+        var includeSignals = checks[1]?.checked ? "active signals" : null;
+        var includeRecommendations = checks[2]?.checked ? "recommendations" : null;
+        var includeCustomerLanguage = checks[3]?.checked ? "customer-facing language" : null;
+
+        var parts = [includeCharts, includeSignals, includeRecommendations, includeCustomerLanguage].filter(Boolean);
+        var includedText = parts.length ? parts.join(", ") : "core executive summary elements";
+
+        var toneMap = {
+          CEO: "strategic and board-oriented",
+          CFO: "financial and exposure-focused",
+          CTO: "operational and resilience-focused",
+          Sustainability: "compliance-aware and sustainability-led",
+          "Customer / Buyer": "external, confidence-building and buyer-ready"
+        };
+
+        var templateMap = {
+          executive_summary: "Executive Summary",
+          financial_impact: "Financial Impact",
+          sustainability_compliance: "Sustainability Compliance",
+          production_efficiency: "Production Efficiency"
+        };
+
+        var tone = toneMap[persona] || "executive";
+        var templateLabel = templateMap[type] || type.replaceAll("_", " ");
+
+        preview.textContent =
+          facility + " custom report prepared for " + persona +
+          " using the " + templateLabel +
+          " template across " + range +
+          ". Included sections: " + includedText +
+          ". Output tone: " + tone +
+          ". This version is positioned for print review, stakeholder discussion and sales-demo delivery.";
+      }
+
+      var customBtn = document.getElementById("btnGenerateCustomReport");
+      if (customBtn) {
+        customBtn.addEventListener("click", function () {
+          buildCustomPreview();
+          if (window.ZPExecutiveReportGenerator) {
+            var selectedType = document.getElementById("reportTemplateType")?.value || "executive_summary";
+            window.ZPExecutiveReportGenerator.open(selectedType);
+          }
+        });
+      }
+
+      ["reportFacility","reportDateRange","reportPersona","reportTemplateType"].forEach(function(id){
+        var node = document.getElementById(id);
+        if (node) {
+          node.addEventListener("input", buildCustomPreview);
+          node.addEventListener("change", buildCustomPreview);
+        }
+      });
+
+      document.querySelectorAll(".generator-check input[type='checkbox']").forEach(function(node){
+        node.addEventListener("change", buildCustomPreview);
+      });
+
+      buildCustomPreview();
+
+      var printBtn = document.getElementById("btnPrintReportsPage");
+      if (printBtn) {
+        printBtn.addEventListener("click", function () {
+          window.print();
+        });
+      }
+    });
+  </script>
+</body>
+</html>
