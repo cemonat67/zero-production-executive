@@ -36,7 +36,8 @@
 
 
 (function () {
-  const API_URL = "http://127.0.0.1:8010/api/brain/status?facility=ekoten";
+  const API_BASE = (window.ZeroExecutiveConfig && window.ZeroExecutiveConfig.apiBase) || "";
+  const API_URL = `${API_BASE}/api/brain/status?facility=ekoten`;
 
   function byId(id) {
     return document.getElementById(id);
@@ -360,7 +361,7 @@
   async function fetchBrainData() {
     const facility = "ekoten";
     const strategy = "balanced";
-    const V2_URL = `http://127.0.0.1:8010/api/brain/status/v2?facility=${encodeURIComponent(facility)}&strategy=${encodeURIComponent(strategy)}`;
+    const V2_URL = `${API_BASE}/api/brain/status/v2?facility=${encodeURIComponent(facility)}&strategy=${encodeURIComponent(strategy)}`;
     const V1_URL = API_URL;
 
     try {
@@ -392,7 +393,7 @@
       const view = window.ZeroExecutiveDataContract.normalizeBrainPayload(data.brain || data);
       updateModalBody(renderSuccess(view));
     } catch (err) {
-      updateModalBody(renderError(err?.message || "Unknown error"));
+      updateModalBody(renderError("AI Insights API is not available in this environment. Demo mode can continue without live brain data."));
     }
   }
 
