@@ -368,9 +368,10 @@ const impact = computeImpactScore(cmp);
       <div class="zp-switch-shell">
         <div class="zp-switch-head">
           <div>
-            <div class="zp-switch-title">Machine Alternative Comparison</div>
+            <div class="zp-switch-title">Simulate Machine Switch</div>
             <div class="zp-switch-subtitle">
-              Recommended <strong>${escapeHtml(text(recommended.machine))}</strong> vs Alternative <strong>${escapeHtml(text(alternative.machine))}</strong>
+              Compare <strong>${escapeHtml(text(recommended.machine))}</strong> vs
+              <strong>${escapeHtml(text(alternative.machine))}</strong>
             </div>
           </div>
           <div class="zp-switch-meta">
@@ -382,7 +383,7 @@ const impact = computeImpactScore(cmp);
         
 
         <div class="zp-load-simulator">
-          <div class="zp-load-title">Alternative Machine Load Simulation</div>
+          <div class="zp-load-title">Production What-If</div>
           <div class="zp-load-row">
             <input id="zpLoadSlider" type="range" min="50" max="110" value="${activeLoad}" step="1"/>
             <div class="zp-load-value">${fmtPct(activeLoad)}</div>
@@ -390,10 +391,10 @@ const impact = computeImpactScore(cmp);
         </div>
 
 <div class="zp-switch-grid">
-          ${renderCompareMetricPct("Load Delta", cmp.loadPct, 1)}
-          ${renderCompareMetric("Energy Delta", cmp.energy, "kWh", 2)}
-          ${renderCompareMetric("Water Delta", cmp.water, "L", 0)}
-          ${renderCompareMetric("CO₂ Delta", cmp.co2, "kg", 2)}
+          ${renderCompareMetricPct("Load %", cmp.loadPct, 1)}
+          ${renderCompareMetric("Energy", cmp.energy, "kWh", 2)}
+          ${renderCompareMetric("Water", cmp.water, "L", 0)}
+          ${renderCompareMetric("CO₂", cmp.co2, "kg", 2)}
         </div>
 
         <div class="zp-impact-shell">

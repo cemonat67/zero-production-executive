@@ -37,6 +37,26 @@ window.ZERO_CONFIG = {
 
 </head>
 <body>
+  <div class="zp-report-launcher" style="position:fixed;right:24px;bottom:24px;z-index:1200;">
+    <button
+      id="btnExecutiveReportGenerator"
+      type="button"
+      style="
+        appearance:none;
+        border:none;
+        border-radius:14px;
+        padding:14px 18px;
+        font-weight:700;
+        letter-spacing:.2px;
+        cursor:pointer;
+        background:#f9ba00;
+        color:#0d1117;
+        box-shadow:0 14px 34px rgba(0,0,0,.28);
+      "
+    >
+      Generate Executive Report
+    </button>
+  </div>
   <div class="wrap">
     <div class="topbar">
       <div class="brand">
@@ -741,7 +761,7 @@ window.addEventListener("load", function () {
 
 <script src="assets/js/executive-data-contract.js"></script>
 <script src="assets/js/executive-ai-insights.js?v=20260314a"></script>
-  <script src="assets/js/executive-ui.js"></script>
+  <script src="assets/js/executive-ui.js?v=20260315b"></script>
 
   <div class="wrap">
   <!-- Production Decision Engine -->
@@ -849,6 +869,23 @@ window.addEventListener("load", function () {
 <script src="assets/js/executive-production-decision.js"></script>
   <script src="assets/js/executive-production-alternatives.js"></script>
   <script src="assets/js/executive-report-generator-lite.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="assets/js/executive-report-generator.js"></script>
+  <script>
+  window.addEventListener("DOMContentLoaded", function () {
+    if (window.ZPExecutiveReportGenerator) {
+      window.ZPExecutiveReportGenerator.init();
+      var btn = document.getElementById("btnExecutiveReportGenerator");
+      if (btn) {
+        btn.addEventListener("click", function () {
+          window.ZPExecutiveReportGenerator.open("executive_summary");
+        });
+      }
+    }
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </body>
 </html>
 

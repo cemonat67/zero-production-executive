@@ -193,7 +193,6 @@ function renderRow(view) {
         <div class="zp-pde-card">
           <div class="zp-pde-topline">
             <div>
-              <div class="zp-pde-machine-label">Order ID</div>
               <div class="zp-pde-order">${escapeHtml(text(view.orderId))}</div>
               <div class="zp-pde-customer">Customer: <strong>${escapeHtml(text(view.customer))}</strong></div>
             </div>
@@ -205,20 +204,16 @@ function renderRow(view) {
 
           <div class="zp-pde-stats">
             <div class="zp-pde-stat">
-              <div class="zp-pde-label">Estimated Energy</div>
-              <div class="zp-pde-value">${view.estimatedEnergy === null ? "—" : fmtUnit(view.estimatedEnergy, "kWh", 2)}</div>
+              <div class="zp-pde-label">Machine Capacity</div>
+              <div class="zp-pde-value">${view.machineCapacity === null ? "—" : fmtUnit(view.machineCapacity, "kg", 0)}</div>
             </div>
             <div class="zp-pde-stat">
               <div class="zp-pde-label">Estimated Water</div>
               <div class="zp-pde-value">${view.estimatedWaterL === null ? "—" : fmtUnit(view.estimatedWaterL, "L", 0)}</div>
             </div>
             <div class="zp-pde-stat">
-              <div class="zp-pde-label">Estimated CO₂</div>
-              <div class="zp-pde-value">${view.estimatedCo2 === null ? "—" : fmtUnit(view.estimatedCo2, "kg", 2)}</div>
-            </div>
-            <div class="zp-pde-stat">
-              <div class="zp-pde-label">Machine Load</div>
-              <div class="zp-pde-value">${fmtPct(view.loadPct)}</div>
+              <div class="zp-pde-label">Estimated Energy</div>
+              <div class="zp-pde-value">${view.estimatedEnergy === null ? "—" : fmtUnit(view.estimatedEnergy, "kWh", 2)}</div>
             </div>
           </div>
 
@@ -231,7 +226,7 @@ function renderRow(view) {
           <div class="zp-pde-load-card">
             <div class="zp-pde-load-row">
               <div>
-                <div class="zp-pde-label">Machine Load %</div>
+                <div class="zp-pde-label">Load</div>
                 <div class="zp-pde-load-big">${fmtPct(view.loadPct)}</div>
               </div>
               <div class="zp-pde-verdict ${verdictCls}">${escapeHtml(verdict)}</div>
@@ -244,15 +239,16 @@ function renderRow(view) {
 
           <div class="zp-pde-mini-grid">
             <div class="zp-pde-mini">
-              <div class="zp-pde-label">Recommended Machine</div>
-              <div class="zp-pde-value">${escapeHtml(text(view.recommendedMachine))}</div>
+              <div class="zp-pde-label">Capacity Verdict</div>
+              <div class="zp-pde-value">${escapeHtml(verdict)}</div>
             </div>
             <div class="zp-pde-mini">
-              <div class="zp-pde-label">Capacity Status</div>
-              <div class="zp-pde-value">${escapeHtml(verdict)}</div>
+              <div class="zp-pde-label">Estimated CO₂</div>
+              <div class="zp-pde-value">${view.estimatedCo2 === null ? "—" : fmtUnit(view.estimatedCo2, "kg", 2)}</div>
             </div>
           </div>
         </div>
+
       </div>
     `;
 

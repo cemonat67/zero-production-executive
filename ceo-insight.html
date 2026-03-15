@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CEO Insight | Zero@Production</title>
+  <link rel="stylesheet" href="assets/css/executive-detail-pages.css" />
+</head>
+<body data-page="ceo">
+  <main class="page">
+        <header class="header-shell">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-logo-wrap">
+            <img
+              src="assets/img/plogo.svg"
+              alt="Zero@Production Logo"
+              class="brand-logo"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+            />
+            <div class="brand-mark-fallback">Z@</div>
+          </div>
+          <div class="brand-copy">
+            <div class="brand-kicker">Zero@Production — Executive Detail</div>
+            <h1 id="pageTitle">Executive Detail Page</h1>
+            <p id="pageSubtitle">Executive detail view</p>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-secondary" href="executive.html">← Return to Dashboard</a>
+          <button class="btn btn-primary" id="btnExportPdf">Export to PDF</button>
+        </div>
+      </div>
+    </header>
+
+<div class="actions">
+        <a class="btn btn-secondary" href="executive.html">← Return to Dashboard</a>
+        <button class="btn btn-primary" id="btnExportPdf">Export to PDF</button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="panel hero-main">
+        <div class="eyebrow" id="eyebrow">Executive layer</div>
+        <h2 id="heroTitle">CEO Strategic Sustainability Overview</h2>
+        <p id="heroText"></p>
+      </div>
+
+      <aside class="panel hero-side">
+        <div class="section-head" style="margin-bottom:0;">
+          <div>
+            <h3>Executive Status Snapshot</h3>
+            <p>High-level leadership posture for demo presentation</p>
+          </div>
+        </div>
+        <div class="status-row" id="statusRow"></div>
+      </aside>
+    </section>
+
+    <div class="detail-back-row">
+      <a class="detail-back-btn" href="executive.html">← Back to Executive Dashboard</a>
+    </div>
+
+    <section class="kpi-grid" id="kpiGrid"></section>
+
+    <section class="content-grid">
+      <div class="stack">
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Strategic Sustainability Overview</h3>
+              <p>Board-level sustainability and operational visibility</p>
+            </div>
+            <span class="badge green">Sales Demo Ready</span>
+          </div>
+          <div class="metric-list" id="metricList"></div>
+        </section>
+
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>CO₂ Trajectory</h3>
+              <p>Directional trend for executive storytelling</p>
+            </div>
+            <span class="badge blue">Trajectory View</span>
+          </div>
+          <div class="chart-box">
+            <div class="mini-chart">
+              <div class="bars" id="chartBars"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Executive Decision Narrative</h3>
+              <p>Condensed leadership interpretation</p>
+            </div>
+          </div>
+          <div class="note-box narrative" id="decisionNarrative"></div>
+        </section>
+      </div>
+
+      <div class="stack">
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Operational Risk Summary</h3>
+              <p>Risk posture simplified for top management</p>
+            </div>
+            <span class="badge orange">Monitor</span>
+          </div>
+          <div class="note-box">
+            Current risks are manageable but visible. The most meaningful pressure points remain resource intensity, compliance trajectory and cost-linked sustainability exposure. The executive value is that these are no longer hidden in separate systems.
+          </div>
+        </section>
+
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3 id="sideTitle">Executive note</h3>
+              <p>How to frame the discussion in the meeting room</p>
+            </div>
+          </div>
+          <div class="note-box" id="sideText"></div>
+        </section>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      Zero@Production — Executive Detail Page / CEO Insight
+    </div>
+  </main>
+
+  <script src="assets/js/executive-detail-pages.js"></script>
+</body>
+</html>

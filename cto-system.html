@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CTO System | Zero@Production</title>
+  <link rel="stylesheet" href="assets/css/executive-detail-pages.css" />
+</head>
+<body data-page="cto">
+  <main class="page">
+        <header class="header-shell">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-logo-wrap">
+            <img
+              src="assets/img/plogo.svg"
+              alt="Zero@Production Logo"
+              class="brand-logo"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+            />
+            <div class="brand-mark-fallback">Z@</div>
+          </div>
+          <div class="brand-copy">
+            <div class="brand-kicker">Zero@Production — Executive Detail</div>
+            <h1 id="pageTitle">Executive Detail Page</h1>
+            <p id="pageSubtitle">Executive detail view</p>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-secondary" href="executive.html">← Return to Dashboard</a>
+          <button class="btn btn-primary" id="btnExportPdf">Export to PDF</button>
+        </div>
+      </div>
+    </header>
+
+<div class="actions">
+        <a class="btn btn-secondary" href="executive.html">← Return to Dashboard</a>
+        <button class="btn btn-primary" id="btnExportPdf">Export to PDF</button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="panel hero-main">
+        <div class="eyebrow" id="eyebrow">Technology layer</div>
+        <h2 id="heroTitle">CTO System Health & Production Intelligence</h2>
+        <p id="heroText"></p>
+      </div>
+
+      <aside class="panel hero-side">
+        <div class="section-head" style="margin-bottom:0;">
+          <div>
+            <h3>Technical Status Snapshot</h3>
+            <p>Operational readiness for executive demo</p>
+          </div>
+        </div>
+        <div class="status-row" id="statusRow"></div>
+      </aside>
+    </section>
+
+    <div class="detail-back-row">
+      <a class="detail-back-btn" href="executive.html">← Back to Executive Dashboard</a>
+    </div>
+
+    <section class="kpi-grid" id="kpiGrid"></section>
+
+    <section class="content-grid">
+      <div class="stack">
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>System Health</h3>
+              <p>Readiness, resilience and fallback posture</p>
+            </div>
+            <span class="badge green">Stable</span>
+          </div>
+          <div class="metric-list" id="metricList"></div>
+        </section>
+
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Machine Utilization Insight</h3>
+              <p>Line-level utilization balance for operational intelligence</p>
+            </div>
+            <span class="badge blue">Live Logic</span>
+          </div>
+          <div class="chart-box">
+            <div class="mini-chart">
+              <div class="bars" id="chartBars"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Production Decision Engine Summary</h3>
+              <p>Decision-layer interpretation</p>
+            </div>
+          </div>
+          <div class="note-box narrative" id="decisionNarrative"></div>
+        </section>
+      </div>
+
+      <div class="stack">
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Data Pipeline Status</h3>
+              <p>Visibility into ingestion, mapping and fallback safety</p>
+            </div>
+            <span class="badge orange">Contained Complexity</span>
+          </div>
+          <div class="note-box">
+            The system is designed to remain presentation-safe even if live API layers are unavailable. That matters in executive demos. Fallback content, stable page rendering and non-fragile narrative flow protect the meeting from turning into a debugging session. Nobody wants that circus.
+          </div>
+        </section>
+
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Technical Leadership Note</h3>
+              <p>How to position the platform credibly</p>
+            </div>
+          </div>
+          <div class="note-box" id="sideText"></div>
+        </section>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      Zero@Production — Executive Detail Page / CTO System
+    </div>
+  </main>
+
+  <script src="assets/js/executive-detail-pages.js"></script>
+</body>
+</html>

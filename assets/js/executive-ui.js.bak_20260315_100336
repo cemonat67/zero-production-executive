@@ -1670,20 +1670,6 @@ var scenarioRiskEl = byId("ceoModalScenarioRisk");
         modalTitle.textContent = cfg.title;
         modalSub.textContent = cfg.sub;
         modalBody.innerHTML = cfg.html;
-        const detailHrefMap = {
-          ceo: "ceo-insight.html",
-          cfo: "cfo-impact.html",
-          cto: "cto-system.html"
-        };
-        if (!modalBody.querySelector(".exec-detail-link-row") && detailHrefMap[role]) {
-          const wrap = document.createElement("div");
-          wrap.className = "exec-detail-link-row";
-          wrap.style.marginTop = "18px";
-          wrap.style.display = "flex";
-          wrap.style.justifyContent = "flex-end";
-          wrap.innerHTML = '<a href="' + detailHrefMap[role] + '" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:12px 16px;border-radius:12px;text-decoration:none;font-weight:700;letter-spacing:.01em;color:#09111a;background:linear-gradient(135deg,#f9ba00,#ffd15c);border:1px solid rgba(249,186,0,.45);box-shadow:0 10px 24px rgba(249,186,0,.15);">View Full Analysis</a>';
-          modalBody.appendChild(wrap);
-        }
         modalBackdrop.classList.add("open");
         modalBackdrop.setAttribute("aria-hidden", "false");
         setTimeout(function(){

@@ -739,11 +739,9 @@ window.addEventListener("load", function () {
 
 
 
-<script src="assets/js/executive-data-contract.js"></script>
 <script src="assets/js/executive-ai-insights.js?v=20260314a"></script>
   <script src="assets/js/executive-ui.js"></script>
 
-  <div class="wrap">
   <!-- Production Decision Engine -->
   <section id="zpProductionDecisionEngine" class="zp-pde-shell" aria-label="Production Decision Engine">
     <div class="zp-pde-head">
@@ -775,80 +773,8 @@ window.addEventListener("load", function () {
   </section>
 
 
-  <!-- Report Generator Lite -->
-  <section id="zpReportGeneratorLite" class="zp-report-shell" aria-label="Generate Custom Report">
-    <div class="zp-alt-head">
-      <div>
-        <div class="zp-pde-kicker">Reporting Layer</div>
-        <h2 class="zp-alt-title">Generate Custom Report</h2>
-        <p class="zp-alt-sub">Build a simple executive report view by date range, machine, process, batch and KPI selection.</p>
-      </div>
-      <div id="zpReportBadge" class="zp-pde-badge">Lite</div>
-    </div>
-
-    <div class="zp-report-body">
-      <div class="zp-report-grid">
-        <label class="zp-report-field">
-          <span>Date From</span>
-          <input type="date" id="reportDateFrom">
-        </label>
-        <label class="zp-report-field">
-          <span>Date To</span>
-          <input type="date" id="reportDateTo">
-        </label>
-        <label class="zp-report-field">
-          <span>Machine</span>
-          <select id="reportMachine">
-            <option value="">All Machines</option>
-            <option>Jigger 01</option>
-            <option>Jet 02</option>
-            <option>Jet 04</option>
-            <option>Jet 06</option>
-            <option>Stenter 01</option>
-          </select>
-        </label>
-        <label class="zp-report-field">
-          <span>Process</span>
-          <select id="reportProcess">
-            <option value="">All Processes</option>
-            <option>Dyeing</option>
-            <option>Finishing</option>
-            <option>Washing</option>
-            <option>Drying</option>
-          </select>
-        </label>
-        <label class="zp-report-field">
-          <span>Product / Batch</span>
-          <input type="text" id="reportBatch" placeholder="e.g. EKOTEN-2401-B01">
-        </label>
-        <label class="zp-report-field">
-          <span>KPI Selection</span>
-          <select id="reportKpi">
-            <option value="all">All KPIs</option>
-            <option value="energy">Energy</option>
-            <option value="water">Water</option>
-            <option value="co2">CO₂</option>
-            <option value="efficiency">Efficiency</option>
-          </select>
-        </label>
-      </div>
-
-      <div class="zp-report-actions">
-        <button id="btnGenerateReport" class="zp-report-btn primary" type="button">Generate Report</button>
-        <button id="btnPrintReport" class="zp-report-btn" type="button">Print View</button>
-        <button id="btnExportPdf" class="zp-report-btn" type="button">Export to PDF</button>
-        <button id="btnExportExcel" class="zp-report-btn" type="button">Export to Excel</button>
-      </div>
-
-      <div id="zpReportOutput" class="zp-report-output">
-        <div class="zp-pde-loading">Report output will appear here…</div>
-      </div>
-    </div>
-  </section>
-
 <script src="assets/js/executive-production-decision.js"></script>
   <script src="assets/js/executive-production-alternatives.js"></script>
-  <script src="assets/js/executive-report-generator-lite.js"></script>
 </body>
 </html>
 

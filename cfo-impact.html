@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CFO Impact | Zero@Production</title>
+  <link rel="stylesheet" href="assets/css/executive-detail-pages.css" />
+</head>
+<body data-page="cfo">
+  <main class="page">
+        <header class="header-shell">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-logo-wrap">
+            <img
+              src="assets/img/plogo.svg"
+              alt="Zero@Production Logo"
+              class="brand-logo"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+            />
+            <div class="brand-mark-fallback">Z@</div>
+          </div>
+          <div class="brand-copy">
+            <div class="brand-kicker">Zero@Production — Executive Detail</div>
+            <h1 id="pageTitle">Executive Detail Page</h1>
+            <p id="pageSubtitle">Executive detail view</p>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-secondary" href="executive.html">← Return to Dashboard</a>
+          <button class="btn btn-primary" id="btnExportPdf">Export to PDF</button>
+        </div>
+      </div>
+    </header>
+
+<div class="actions">
+        <a class="btn btn-secondary" href="executive.html">← Return to Dashboard</a>
+        <button class="btn btn-primary" id="btnExportPdf">Export to PDF</button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="panel hero-main">
+        <div class="eyebrow" id="eyebrow">Financial layer</div>
+        <h2 id="heroTitle">CFO Financial Exposure & Impact View</h2>
+        <p id="heroText"></p>
+      </div>
+
+      <aside class="panel hero-side">
+        <div class="section-head" style="margin-bottom:0;">
+          <div>
+            <h3>Financial Status Snapshot</h3>
+            <p>Executive finance posture for demo presentation</p>
+          </div>
+        </div>
+        <div class="status-row" id="statusRow"></div>
+      </aside>
+    </section>
+
+    <div class="detail-back-row">
+      <a class="detail-back-btn" href="executive.html">← Back to Executive Dashboard</a>
+    </div>
+
+    <section class="kpi-grid" id="kpiGrid"></section>
+
+    <section class="content-grid">
+      <div class="stack">
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Financial Exposure</h3>
+              <p>Carbon pricing and operating-cost sensitivity</p>
+            </div>
+            <span class="badge red">Finance Critical</span>
+          </div>
+          <div class="metric-list" id="metricList"></div>
+        </section>
+
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Carbon Pricing Scenarios</h3>
+              <p>Executive comparison view</p>
+            </div>
+            <span class="badge orange">Scenario Model</span>
+          </div>
+          <div class="chart-box">
+            <div class="mini-chart">
+              <div class="bars" id="chartBars"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Estimated € Impact</h3>
+              <p>Decision-ready finance narrative</p>
+            </div>
+          </div>
+          <div class="note-box narrative" id="decisionNarrative"></div>
+        </section>
+      </div>
+
+      <div class="stack">
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Wastewater Penalty Risk</h3>
+              <p>Environmental exposure translated into finance language</p>
+            </div>
+            <span class="badge orange">Watchlist</span>
+          </div>
+          <div class="note-box">
+            Wastewater exposure is not shown here as a technical issue. It is shown as cost risk. This framing matters. Penalties, remediation effort, audit friction and customer pressure all accumulate into financial drag if not addressed early.
+          </div>
+        </section>
+
+        <section class="panel section">
+          <div class="section-head">
+            <div>
+              <h3>Cost-saving Opportunities</h3>
+              <p>High-value discussion point for budget owners</p>
+            </div>
+          </div>
+          <div class="note-box" id="sideText"></div>
+        </section>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      Zero@Production — Executive Detail Page / CFO Impact
+    </div>
+  </main>
+
+  <script src="assets/js/executive-detail-pages.js"></script>
+</body>
+</html>
