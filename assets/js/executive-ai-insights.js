@@ -269,9 +269,25 @@
       ? activeSignals.map(sig => `${sig.level}: ${sig.type}`).join(" | ")
       : "No active local FactoryOS signals";
 
-    const summary = activeSignals.length
+    let summary = activeSignals.length
       ? "Local FactoryOS runtime detected executive-level operational pressure. API brain is unavailable, so this summary is generated from live runtime metrics and active signals."
       : "AI endpoint is unavailable, but local FactoryOS runtime is stable enough to produce an executive fallback summary.";
+
+    const environmentalNarrative = [
+      envFlags.carbon_hotspot
+        ? "Carbon hotspot pressure is now visible at board level through cost, margin and sustainability exposure."
+        : null,
+      envFlags.waste_pressure
+        ? "Waste and wastewater pressure require visible compliance attention in the executive summary."
+        : null,
+      envFlags.scope3_visible
+        ? "Scope 3 contribution remains part of the sustainability narrative and should stay visible in reporting context."
+        : null
+    ].filter(Boolean).join(" ");
+
+    if (environmentalNarrative) {
+      summary += " " + environmentalNarrative;
+    }
 
     const ceoView = (latestByType.get("water_usage_high") || envFlags.waste_pressure)
       ? "Water and waste pressure are visible in the operating context. Sustainability and compliance posture should be reviewed before the next cycle."
