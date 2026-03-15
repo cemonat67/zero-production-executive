@@ -336,22 +336,22 @@
     );
 
     const ceoScoreDrivers = [
-      latestByType.get("water_usage_high") ? "water signal" : null,
-      envFlags.waste_pressure ? "waste pressure" : null,
-      envFlags.carbon_hotspot ? "carbon visibility" : null,
+      latestByType.get("water_usage_high") ? "water stress" : null,
+      envFlags.waste_pressure ? "waste compliance visibility" : null,
+      envFlags.carbon_hotspot ? "carbon governance visibility" : null,
       envFlags.scope3_visible ? "Scope 3 visibility" : null
     ].filter(Boolean).join(" + ");
 
     const cfoScoreDrivers = [
-      latestByType.get("energy_spike") ? "energy spike" : null,
+      latestByType.get("energy_spike") ? "energy cost pressure" : null,
       envFlags.carbon_hotspot ? "carbon hotspot" : null,
       envFlags.scope3_visible ? "Scope 3 visibility" : null
     ].filter(Boolean).join(" + ");
 
     const ctoScoreDrivers = [
       latestByType.get("machine_overload") ? "machine overload" : null,
-      envFlags.waste_pressure ? "waste awareness" : null,
-      envFlags.scope3_visible ? "environmental visibility" : null
+      envFlags.waste_pressure ? "waste handling visibility" : null,
+      envFlags.scope3_visible ? "environmental system visibility" : null
     ].filter(Boolean).join(" + ");
 
     const signalCards = activeSignals.length
@@ -602,8 +602,8 @@
                     ? esc(
                         "Environmental signal: "
                         + [
-                            sustainability.environmental_flags?.carbon_hotspot ? "carbon hotspot active" : null,
-                            sustainability.environmental_flags?.waste_pressure ? "waste pressure visible" : null,
+                            sustainability.environmental_flags?.carbon_hotspot ? "carbon hotspot visible" : null,
+                            sustainability.environmental_flags?.waste_pressure ? "waste compliance visible" : null,
                             sustainability.environmental_flags?.scope3_visible ? "scope 3 exposure visible" : null
                           ].filter(Boolean).join(" · ")
                       )
