@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zero@Production — Intake Hub</title>
+  <style>
+    :root{
+      --bg:#08101b;
+      --card:#101a2a;
+      --line:rgba(255,255,255,.08);
+      --text:#f5f7fb;
+      --muted:#9fb0c7;
+      --orange:#f9ba00;
+      --green:#005530;
+      --navy:#02154e;
+      --red:#d51635;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:linear-gradient(180deg,#08101b 0%, #0c1728 100%);
+      color:var(--text);
+    }
+    .wrap{
+      max-width:1180px;
+      margin:0 auto;
+      padding:28px 20px 60px;
+    }
+    .back{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
+      color:#08101b;
+      background:var(--orange);
+      padding:10px 14px;
+      border-radius:12px;
+      font-weight:700;
+      margin-bottom:22px;
+    }
+    .hero,.card{
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:0 20px 50px rgba(0,0,0,.25);
+    }
+    .hero{ padding:24px; margin-bottom:20px; }
+    .kicker{
+      color:var(--orange);
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+    h1{ margin:0 0 8px; font-size:32px; }
+    .sub{ color:var(--muted); line-height:1.6; max-width:900px; }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:20px;
+    }
+    .card{ padding:22px; }
+    .title-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .title{
+      font-size:22px;
+      font-weight:800;
+      margin:0;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:84px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.04em;
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .badge-active{
+      background:rgba(0,85,48,.22);
+      color:#9ff0bf;
+      border-color:rgba(39,194,129,.35);
+    }
+    .badge-planned{
+      background:rgba(249,186,0,.14);
+      color:#ffd76a;
+      border-color:rgba(249,186,0,.26);
+    }
+    .copy{
+      color:var(--muted);
+      line-height:1.6;
+      margin-bottom:18px;
+      min-height:72px;
+    }
+    .actions{ display:flex; gap:12px; flex-wrap:wrap; }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:14px;
+      font-weight:700;
+      min-width:180px;
+    }
+    .btn-primary{ background:var(--orange); color:#08101b; }
+    .btn-secondary{
+      background:#18253a;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+    .btn-disabled{
+      background:#111a2a;
+      color:#60708c;
+      border:1px dashed rgba(255,255,255,.12);
+      cursor:not-allowed;
+      pointer-events:none;
+    }
+    .note{
+      margin-top:14px;
+      color:#8fb3ff;
+      font-size:13px;
+      line-height:1.5;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns:1fr; }
+    }
+    @media (max-width: 800px){
+      h1{ font-size:26px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="executive.html">← Back to Executive Dashboard</a>
+
+    <section class="hero">
+      <div class="kicker">Executive v2 · Multi-Channel Intake</div>
+      <h1>Intake Hub</h1>
+      <div class="sub">
+        Choose the intake channel. Active adapters are usable today. Planned adapters define the next operational expansion path for Zero@Production.
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <div class="title-row">
+          <div class="title">CSV Intake</div>
+          <div class="badge badge-active">ACTIVE</div>
+        </div>
+        <div class="copy">
+          Structured CSV-based intake path for operational uploads and manual file-driven ingestion.
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="executive.html#csv-upload">Open CSV Area</a>
+        </div>
+        <div class="note">Current path routes to the CSV area inside the executive dashboard.</div>
+      </section>
+
+      <section class="card">
+        <div class="title-row">
+          <div class="title">Email Intake</div>
+          <div class="badge badge-active">ACTIVE</div>
+        </div>
+        <div class="copy">
+          Adapter skeleton for sender, subject, body and attachment metadata. Runs normalize → preflight → commit → refresh flow.
+        </div>
+        <div class="actions">
+          <a class="btn btn-secondary" href="email-intake.html">Open Email Intake</a>
+        </div>
+        <div class="note">First real multi-channel adapter path.</div>
+      </section>
+
+      <section class="card">
+        <div class="title-row">
+          <div class="title">SAP / ERP Feed</div>
+          <div class="badge badge-active">ACTIVE</div>
+        </div>
+        <div class="copy">
+          Current machine and runtime simulation path feeding the live monitor from the SAP mock feeder status payload.
+        </div>
+        <div class="actions">
+          <a class="btn btn-secondary" href="executive.html#live-monitor">Open Live Monitor</a>
+        </div>
+        <div class="note">Currently backed by agents/sap_mock_feeder/runtime/latest_status.json.</div>
+      </section>
+
+      <section class="card">
+        <div class="title-row">
+          <div class="title">MES Adapter</div>
+          <div class="badge badge-planned">PLANNED</div>
+        </div>
+        <div class="copy">
+          Shop-floor execution events, machine state updates, production confirmations and station-level runtime visibility.
+        </div>
+        <div class="actions">
+          <span class="btn btn-disabled">Planned</span>
+        </div>
+        <div class="note">Next logical industrial adapter after SAP and Email.</div>
+      </section>
+
+      <section class="card">
+        <div class="title-row">
+          <div class="title">WhatsApp Intake</div>
+          <div class="badge badge-active">ACTIVE</div>
+        </div>
+        <div class="copy">
+          Supplier or operator messages converted into structured operational events with attachment metadata and quick triage.
+        </div>
+        <div class="actions">
+          <a class="btn btn-secondary" href="whatsapp-intake.html">Open WhatsApp Intake</a>
+        </div>
+        <div class="note">Prototype supplier/operator message intake path is now available.</div>
+      </section>
+
+      <section class="card">
+        <div class="title-row">
+          <div class="title">QR / Mobile Scan</div>
+          <div class="badge badge-active">ACTIVE</div>
+        </div>
+        <div class="copy">
+          Batch, pallet, machine or station scan input for fast mobile capture directly from the production floor.
+        </div>
+        <div class="actions">
+          <a class="btn btn-secondary" href="qr-intake.html">Open QR Intake</a>
+        </div>
+        <div class="note">Fast shop-floor scan capture is now available as a mock intake path.</div>
+      </section>
+
+
+      <section class="card">
+        <div class="title-row">
+          <div class="title">OCR / Document Intake</div>
+          <div class="badge badge-planned">PLANNED</div>
+        </div>
+        <div class="copy">
+          Convert PDFs, scanned documents, certificates and dispatch papers into normalized structured records.
+        </div>
+        <div class="actions">
+          <span class="btn btn-disabled">Planned</span>
+        </div>
+        <div class="note">Best for invoices, quality documents, shipment papers and compliance evidence.</div>
+      </section>
+
+      <section class="card">
+        <div class="title-row">
+          <div class="title">API Push Intake</div>
+          <div class="badge badge-planned">PLANNED</div>
+        </div>
+        <div class="copy">
+          Direct system-to-system ingestion endpoint for external platforms, suppliers, partner tools or plant systems.
+        </div>
+        <div class="actions">
+          <span class="btn btn-disabled">Planned</span>
+        </div>
+        <div class="note">Natural destination once the adapter contract is stabilized.</div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

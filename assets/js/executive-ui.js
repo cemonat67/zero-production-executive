@@ -2756,7 +2756,11 @@ document.getElementById("execEscalateBtn")?.addEventListener("click",function(){
 
 
 document.getElementById("openDataIntakeBtn")?.addEventListener("click",function(){
-  window.location.href = "intake.html";
+  window.location.href = "intake-hub.html";
+});
+
+document.getElementById("openEmailIntakeBtn")?.addEventListener("click",function(){
+  window.location.href = "email-intake.html";
 });
 
 })();
@@ -2773,6 +2777,12 @@ document.getElementById("openDataIntakeBtn")?.addEventListener("click",function(
   function setFeedBadge(ok){
     const el = document.getElementById("liveFeedStatusBadge");
     if (!el) return;
+
+    const holdUntil = Number(window.__ZERO_REFRESH_HOLD_UNTIL__ || 0);
+    if (holdUntil && Date.now() < holdUntil) {
+      return;
+    }
+
     if (ok) {
       el.textContent = "LIVE";
       el.className = "badge ok";
@@ -2887,8 +2897,145 @@ document.getElementById("openDataIntakeBtn")?.addEventListener("click",function(
     }
   }
 
+
+  function readInboxLatest(storageKey){
+    try{
+      const raw = localStorage.getItem(storageKey);
+      if(!raw) return null;
+      const parsed = JSON.parse(raw);
+      const items = Array.isArray(parsed && parsed.items) ? parsed.items : [];
+      if(!items.length) return null;
+      return items[items.length - 1];
+    }catch(e){
+      console.warn("Inbox latest read failed:", storageKey, e);
+      return null;
+    }
+  }
+
+  function fmtTime(value){
+    try{
+      if(!value) return "—";
+      return new Date(value).toLocaleTimeString("en-GB");
+    }catch(e){
+      return "—";
+    }
+  }
+
+  function setText(id, value){
+    const el = document.getElementById(id);
+    if(el) el.textContent = value || "—";
+  }
+
+  function renderLatestIntakeSignals(){
+    const email = readInboxLatest("ZERO_EMAIL_INTAKE_INBOX_V1");
+    const wa = readInboxLatest("ZERO_WHATSAPP_INTAKE_INBOX_V1");
+    const qr = readInboxLatest("ZERO_QR_INTAKE_INBOX_V1");
+
+    setText("latestEmailTime", fmtTime(email && (email.created_at || email.committed_at)));
+    setText("latestEmailChannel", (email && email.channel) || "email");
+    setText("latestEmailCategory", email && email.normalized ? email.normalized.category : "—");
+    setText("latestEmailPriority", email && email.normalized ? email.normalized.priority : "—");
+    setText("latestEmailSender", email && email.source ? email.source.sender : "—");
+    setText("latestEmailSummary", email && email.normalized ? email.normalized.summary : "No intake yet");
+
+    setText("latestWhatsappTime", fmtTime(wa && (wa.created_at || wa.committed_at)));
+    setText("latestWhatsappChannel", (wa && wa.channel) || "whatsapp");
+    setText("latestWhatsappCategory", wa && wa.normalized ? wa.normalized.category : "—");
+    setText("latestWhatsappPriority", wa && wa.normalized ? wa.normalized.priority : "—");
+    setText("latestWhatsappSender", wa && wa.source ? wa.source.sender : "—");
+    setText("latestWhatsappSummary", wa && wa.normalized ? wa.normalized.summary : "No intake yet");
+
+    setText("latestQrTime", fmtTime(qr && (qr.created_at || qr.committed_at)));
+    setText("latestQrChannel", (qr && qr.channel) || "qr_scan");
+    setText("latestQrCategory", qr && qr.normalized ? qr.normalized.category : "—");
+    setText("latestQrPriority", qr && qr.normalized ? qr.normalized.priority : "—");
+    setText("latestQrSender", qr && qr.source ? qr.source.sender : "—");
+    setText("latestQrSummary", qr && qr.normalized ? qr.normalized.summary : "No intake yet");
+
+    const badge = document.getElementById("latestIntakeBadge");
+    if(badge){
+      const count = (email ? 1 : 0) + (wa ? 1 : 0) + (qr ? 1 : 0);
+      badge.textContent = count ? (String(count) + " LIVE") : "LIVE";
+      badge.className = count ? "badge action" : "badge ok";
+    }
+  }
+
+  function pushIntakeSignal(type, payload){
+    try{
+      if(!window.FactoryOS || typeof FactoryOS.pushSignal !== "function") return;
+      const existing = (FactoryOS.state && FactoryOS.state.signals || []).some(function(sig){
+        return sig && sig.type === type;
+      });
+      if(existing) return;
+      FactoryOS.pushSignal(Object.assign({ type:type, source:"intake_layer" }, payload || {}));
+    }catch(e){
+      console.warn("Intake signal push failed:", type, e);
+    }
+  }
+
+  function bridgeLatestIntakeToSignals(){
+    const email = readInboxLatest("ZERO_EMAIL_INTAKE_INBOX_V1");
+    const wa = readInboxLatest("ZERO_WHATSAPP_INTAKE_INBOX_V1");
+    const qr = readInboxLatest("ZERO_QR_INTAKE_INBOX_V1");
+
+    [email, wa, qr].forEach(function(item){
+      if(!item || !item.normalized) return;
+
+      const category = item.normalized.category;
+      if(category === "delivery_delay"){
+        pushIntakeSignal("delivery_delay", {
+          priority: item.normalized.priority || "high",
+          sender: item.source && item.source.sender || "",
+          summary: item.normalized.summary || "",
+          channel: item.channel || ""
+        });
+      }
+
+      if(category === "quality_issue"){
+        pushIntakeSignal("quality_issue", {
+          priority: item.normalized.priority || "high",
+          sender: item.source && item.source.sender || "",
+          summary: item.normalized.summary || "",
+          channel: item.channel || ""
+        });
+      }
+    });
+  }
+
+  function consumeRefreshRequest(){
+    try{
+      const raw = localStorage.getItem("ZERO_EXEC_REFRESH_REQUEST");
+      if(!raw) return;
+      const req = JSON.parse(raw);
+
+      const badge = document.getElementById("liveFeedStatusBadge");
+      const update = document.getElementById("liveUpdateValue");
+
+      window.__ZERO_REFRESH_HOLD_UNTIL__ = Date.now() + 8000;
+
+      if (badge) {
+        badge.textContent = "REFRESH";
+        badge.className = "badge action";
+      }
+
+      if (update) {
+        update.textContent = ((req.channel || (req.reason || "").replace(/_intake_commit/g, "").replace(/_/g, " ") || "intake") + " • " + new Date(req.requested_at).toLocaleTimeString("en-GB"));
+      }
+
+      console.log("Executive refresh request consumed:", req);
+      localStorage.removeItem("ZERO_EXEC_REFRESH_REQUEST");
+    }catch(e){
+      console.warn("Refresh request consume failed:", e);
+    }
+  }
+
   loadLiveMonitor();
+  renderLatestIntakeSignals();
+  bridgeLatestIntakeToSignals();
+  consumeRefreshRequest();
   setInterval(loadLiveMonitor, 3000);
+  setInterval(renderLatestIntakeSignals, 3000);
+  setInterval(bridgeLatestIntakeToSignals, 3000);
 })();
 
 

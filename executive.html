@@ -84,7 +84,8 @@ window.ZERO_CONFIG = {
     <div class="actions actions-toolbar" style="display:flex;flex-wrap:nowrap;gap:4px;align-items:center;overflow:hidden;white-space:nowrap;padding:8px 0 2px;">
       <a class="btn header-green" id="btnBackDashboard" href="index.html" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Back</a>
       <button class="btn primary header-green" id="openEsgDataEntryBtn" type="button" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Consumption Data</button>
-      <button class="btn header-green" id="openDataIntakeBtn" type="button" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Data Intake</button>
+      <button class="btn header-green" id="openDataIntakeBtn" type="button" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Intake Hub</button>
+      <button class="btn header-green" id="openEmailIntakeBtn" type="button" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Email Intake</button>
       <a class="btn header-green" id="btnGoFabric" href="fabric-dpp.html" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Fabric</a>
       <a class="btn primary header-green" id="btnGoFinishing" href="finishing-dpp.html" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">Finishing</a>
       <button class="btn header-green" id="openAiInsightsBtn" type="button" style="white-space:nowrap;flex:0 0 auto;padding:7px 8px;font-size:12px;line-height:1.1;">AI Insights</button>
@@ -205,7 +206,7 @@ window.ZERO_CONFIG = {
             <div style="padding:14px 14px 12px;border-radius:16px;background:linear-gradient(180deg,rgba(9,31,68,.72),rgba(8,24,55,.92));border:1px solid rgba(255,255,255,.08);">
               <div class="split" style="align-items:flex-start;gap:10px;">
                 <div>
-                  <div style="font-size:13px;font-weight:800;">CSV Upload</div>
+                  <div id="csv-upload" style="font-size:13px;font-weight:800;">CSV Upload</div>
                   <div class="muted" style="margin-top:4px;">Bulk structured files</div>
                 </div>
                 <span class="pill ok">ACTIVE</span>
@@ -341,6 +342,62 @@ window.ZERO_CONFIG = {
               </div>
               <div class="muted" style="margin-top:4px;">QR scans, WhatsApp media, email attachments and OCR intake will appear here as live events</div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid two" style="margin-top:14px;">
+      <div class="card">
+        <div class="split">
+          <div>
+            <h2>Latest Intake Signals</h2>
+            <div class="muted">Latest multi-channel intake events: email, WhatsApp and QR scan</div>
+          </div>
+          <span class="badge ok" id="latestIntakeBadge">LIVE</span>
+        </div>
+
+        <div style="margin-top:10px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;">
+          <div style="padding:12px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+              <div style="font-weight:800;">Email Intake</div>
+              <div class="muted" id="latestEmailTime">—</div>
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:#9fb0cf;">
+              <div>Channel: <strong id="latestEmailChannel">—</strong></div>
+              <div>Category: <strong id="latestEmailCategory">—</strong></div>
+              <div>Priority: <strong id="latestEmailPriority">—</strong></div>
+              <div>Sender: <strong id="latestEmailSender">—</strong></div>
+            </div>
+            <div class="muted" style="margin-top:8px;" id="latestEmailSummary">No intake yet</div>
+          </div>
+
+          <div style="padding:12px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+              <div style="font-weight:800;">WhatsApp Intake</div>
+              <div class="muted" id="latestWhatsappTime">—</div>
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:#9fb0cf;">
+              <div>Channel: <strong id="latestWhatsappChannel">—</strong></div>
+              <div>Category: <strong id="latestWhatsappCategory">—</strong></div>
+              <div>Priority: <strong id="latestWhatsappPriority">—</strong></div>
+              <div>Sender: <strong id="latestWhatsappSender">—</strong></div>
+            </div>
+            <div class="muted" style="margin-top:8px;" id="latestWhatsappSummary">No intake yet</div>
+          </div>
+
+          <div style="padding:12px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);">
+            <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;">
+              <div style="font-weight:800;">QR Intake</div>
+              <div class="muted" id="latestQrTime">—</div>
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:#9fb0cf;">
+              <div>Channel: <strong id="latestQrChannel">—</strong></div>
+              <div>Category: <strong id="latestQrCategory">—</strong></div>
+              <div>Priority: <strong id="latestQrPriority">—</strong></div>
+              <div>Sender: <strong id="latestQrSender">—</strong></div>
+            </div>
+            <div class="muted" style="margin-top:8px;" id="latestQrSummary">No intake yet</div>
           </div>
         </div>
       </div>
