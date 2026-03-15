@@ -1851,6 +1851,54 @@ var scenarioRiskEl = byId("ceoModalScenarioRisk");
         modalBackdrop.setAttribute("aria-hidden", "true");
       }
 
+      window.applyEnvironmentalExecutiveEmphasis = function applyEnvironmentalExecutiveEmphasis(){
+        if(!window.FactoryOS) return;
+
+        const env = FactoryOS.get("sustainability.environmental_summary") || {};
+        const flags = FactoryOS.get("sustainability.environmental_flags") || {};
+
+        const ceoSubtext = byId("ceoSubtext");
+        const ceoBadge = byId("ceoBadge");
+        const cfoSubtext = byId("cfoSubtext");
+        const cfoBadge = byId("cfoBadge");
+        const ctoSubtext = byId("ctoSubtext");
+        const ctoBadge = byId("ctoBadge");
+
+        if(ceoSubtext){
+          ceoSubtext.textContent = flags.waste_pressure
+            ? "Wastewater & compliance pressure visible"
+            : "Sustainability posture";
+        }
+        if(ceoBadge){
+          ceoBadge.textContent = flags.waste_pressure ? "PRESSURE" : "MONITOR";
+          ceoBadge.className = flags.waste_pressure ? "badge monitor" : "badge ok";
+        }
+
+        if(cfoSubtext){
+          cfoSubtext.textContent = flags.carbon_hotspot
+            ? "Carbon exposure now affects margin attention"
+            : "Financial exposure";
+        }
+        if(cfoBadge){
+          cfoBadge.textContent = flags.carbon_hotspot
+            ? "CO2 HOTSPOT"
+            : "€ / Year";
+          cfoBadge.className = flags.carbon_hotspot ? "badge critical" : "badge";
+        }
+
+        if(ctoSubtext){
+          ctoSubtext.textContent = flags.scope3_visible
+            ? "System resilience + Scope 3 visibility"
+            : "System resilience";
+        }
+        if(ctoBadge){
+          ctoBadge.textContent = flags.scope3_visible
+            ? "SCOPE 3"
+            : "CRITICAL";
+          ctoBadge.className = flags.scope3_visible ? "badge action" : "badge critical";
+        }
+      }
+
       ["execCardCEO", "execCardCFO", "execCardCTO"].forEach(function(id){
         const el = byId(id);
         if (!el) return;
@@ -2885,6 +2933,7 @@ document.getElementById("openEmailIntakeBtn")?.addEventListener("click",function
         if(typeof FactoryOS.refreshEnvironmentalSummary === "function"){
           FactoryOS.refreshEnvironmentalSummary();
         }
+        applyEnvironmentalExecutiveEmphasis();
 
       }
       updateLiveMonitor(data);
@@ -2912,6 +2961,7 @@ document.getElementById("openEmailIntakeBtn")?.addEventListener("click",function
         if(typeof FactoryOS.refreshEnvironmentalSummary === "function"){
           FactoryOS.refreshEnvironmentalSummary();
         }
+        applyEnvironmentalExecutiveEmphasis();
 
       }
     }

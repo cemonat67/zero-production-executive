@@ -61,7 +61,7 @@
       let obj = this.state;
 
       for(const p of parts){
-        if(!obj[p]) return null;
+        if(obj == null || !(p in obj)) return null;
         obj = obj[p];
       }
 

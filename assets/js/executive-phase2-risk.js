@@ -227,6 +227,10 @@
     if (ctoKpiUnit) ctoKpiUnit.textContent = risk.cto >= 50 ? "load" : "integrity";
     if (ctoCheckLine) ctoCheckLine.innerHTML = 'Last check: <b>' + new Date().toLocaleString() + '</b>';
 
+    if (typeof window.applyEnvironmentalExecutiveEmphasis === "function") {
+      window.applyEnvironmentalExecutiveEmphasis();
+    }
+
     if (execRisk) {
       execRisk.textContent = risk.ceo >= 70 ? "ALERT" : (risk.ceo >= 40 ? "MONITOR" : "STABLE");
     }

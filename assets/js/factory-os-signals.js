@@ -197,6 +197,10 @@
     applyPersonaSignal("#execCardCFO", "#cfoBadge", latestByType.get("energy_spike"), "OK");
     applyPersonaSignal("#execCardCEO", "#ceoBadge", latestByType.get("water_usage_high"), "OK");
     applyPersonaSignal("#execCardCTO", "#ctoBadge", latestByType.get("machine_overload"), "OK");
+
+    if (typeof window.applyEnvironmentalExecutiveEmphasis === "function") {
+      window.applyEnvironmentalExecutiveEmphasis();
+    }
   }, 2000);
 
 })();
