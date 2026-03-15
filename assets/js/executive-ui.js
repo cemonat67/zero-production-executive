@@ -273,6 +273,16 @@ function renderCtoMiniPulse() {
       if (byId("execRisk")) byId("execRisk").textContent = risk;
       if (byId("execSubtitle")) byId("execSubtitle").textContent = subtitle;
 
+      function ensureExecutiveTopChip(chipId, label){
+        const chips = document.querySelector(".chips");
+        const riskChip = byId("execRisk") ? byId("execRisk").closest(".chip") : null;
+        if (!chips || !riskChip || byId(chipId)) return;
+        const span = document.createElement("span");
+        span.className = "chip";
+        span.innerHTML = label + ': <b id="' + chipId + '"></b>';
+        chips.insertBefore(span, riskChip);
+      }
+
       if (line) {
         const chips = document.querySelector(".chips");
         if (chips && !byId("execLine")) {
@@ -283,6 +293,10 @@ function renderCtoMiniPulse() {
           byId("execLine").textContent = line;
         }
       }
+
+      ensureExecutiveTopChip("execCarbonSignal", "Carbon");
+      ensureExecutiveTopChip("execWasteSignal", "Wastewater");
+      ensureExecutiveTopChip("execScope3Signal", "Scope 3");
 
       const backBtn = byId("btnBackDashboard");
       const fabricBtn = byId("btnGoFabric");
@@ -1863,6 +1877,19 @@ var scenarioRiskEl = byId("ceoModalScenarioRisk");
         const cfoBadge = byId("cfoBadge");
         const ctoSubtext = byId("ctoSubtext");
         const ctoBadge = byId("ctoBadge");
+        const carbonChip = byId("execCarbonSignal");
+        const wasteChip = byId("execWasteSignal");
+        const scope3Chip = byId("execScope3Signal");
+
+        if(carbonChip){
+          carbonChip.textContent = flags.carbon_hotspot ? "HOTSPOT" : "OK";
+        }
+        if(wasteChip){
+          wasteChip.textContent = flags.waste_pressure ? "PRESSURE" : "OK";
+        }
+        if(scope3Chip){
+          scope3Chip.textContent = flags.scope3_visible ? "VISIBLE" : "LOW";
+        }
 
         if(ceoSubtext){
           ceoSubtext.textContent = flags.waste_pressure

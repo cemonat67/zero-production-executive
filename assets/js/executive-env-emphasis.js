@@ -11,6 +11,19 @@
     var cfoBadge = document.getElementById("cfoBadge");
     var ctoSubtext = document.getElementById("ctoSubtext");
     var ctoBadge = document.getElementById("ctoBadge");
+    var carbonChip = document.getElementById("execCarbonSignal");
+    var wasteChip = document.getElementById("execWasteSignal");
+    var scope3Chip = document.getElementById("execScope3Signal");
+
+    if (carbonChip) {
+      carbonChip.textContent = flags.carbon_hotspot ? "HOTSPOT" : "OK";
+    }
+    if (wasteChip) {
+      wasteChip.textContent = flags.waste_pressure ? "PRESSURE" : "OK";
+    }
+    if (scope3Chip) {
+      scope3Chip.textContent = flags.scope3_visible ? "VISIBLE" : "LOW";
+    }
 
     if (ceoSubtext) {
       ceoSubtext.textContent = flags.waste_pressure
