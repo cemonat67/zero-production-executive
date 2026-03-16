@@ -1903,7 +1903,7 @@ var scenarioRiskEl = byId("ceoModalScenarioRisk");
 
         if(cfoSubtext){
           cfoSubtext.textContent = flags.carbon_hotspot
-            ? "Carbon exposure now affects margin attention"
+            ? "Carbon hotspot now affects margin attention"
             : "Financial exposure";
         }
         if(cfoBadge){
