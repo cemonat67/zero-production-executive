@@ -307,11 +307,11 @@ function renderCtoMiniPulse() {
       }
 
       if (fabricBtn) {
-        fabricBtn.setAttribute("href", "fabric-dpp.html?facility=" + encodeURIComponent(facility) + "&line=" + encodeURIComponent(line || "LINE-1"));
+        fabricBtn.setAttribute("href", "executive.html?facility=" + encodeURIComponent(facility) + "&line=" + encodeURIComponent(line || "LINE-1"));
       }
 
       if (finishingBtn) {
-        finishingBtn.setAttribute("href", "finishing-dpp.html?facility=" + encodeURIComponent(facility) + "&lens=" + encodeURIComponent(lens || "overview"));
+        finishingBtn.setAttribute("href", "executive.html?facility=" + encodeURIComponent(facility) + "&lens=" + encodeURIComponent(lens || "overview"));
       }
 
       if (moduleName === "fabric" && fabricBtn) {
