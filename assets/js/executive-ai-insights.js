@@ -173,7 +173,7 @@
   function asList(items) {
     const arr = Array.isArray(items) ? items : (items ? [items] : []);
     if (!arr.length) {
-      return '<div style="opacity:.78;">No active reasons reported.</div>';
+      return '<div style="opacity:.78;">No active drivers identified.</div>';
     }
     return '<ul style="margin:8px 0 0 18px; padding:0;">' +
       arr.map(item => `<li style="margin:0 0 6px 0;">${escapeHtml(safe(item))}</li>`).join("") +
@@ -413,7 +413,7 @@
         rationale: "Environmental layer indicates elevated total CO2e exposure. CFO and sustainability review should validate fuel, electricity and carbon intensity drivers.",
         owner: "CFO / Sustainability",
         confidence: 0.84,
-        expected_impact: { energy_kwh: "optimize", co2_kg: "reduce hotspot", water_m3: "-" },
+        expected_impact: { energy_kwh: "improve efficiency", co2_kg: "reduce CO₂ exposure", water_m3: "-" },
         financial_effect: { cost_saving_try: "medium" }
       });
     }
@@ -430,7 +430,7 @@
     }
     if (envFlags.scope3_visible) {
       actions.push({
-        title: "Maintain Scope 3 exposure in executive narrative",
+        title: "Maintain Scope 3 visibility in executive narrative",
         priority: "medium",
         rationale: "Environmental signals confirm a Scope 3 contribution. It should remain in sustainability reporting even when no direct operational anomaly is active.",
         owner: "Sustainability / Reporting",
@@ -524,7 +524,7 @@
               </div>
               <div class="ai-card-body">
                 <div class="ai-meta-grid">
-                  ${renderKV("Carbon Exposure", envFlags.carbon_hotspot ? "active" : "normal")}
+                  ${renderKV("Carbon Hotspot", envFlags.carbon_hotspot ? "active" : "normal")}
                   ${renderKV("Wastewater / Compliance", envFlags.waste_pressure ? "watch" : "normal")}
                   ${renderKV("Scope 3 Reporting", envFlags.scope3_visible ? "included" : "not material")}
                   ${renderKV("Executive Interpretation", (envFlags.carbon_hotspot || envFlags.waste_pressure || envFlags.scope3_visible) ? "elevated" : "stable")}
@@ -602,12 +602,12 @@
                     ? esc(
                         "Environmental signal: "
                         + [
-                            sustainability.environmental_flags?.carbon_hotspot ? "carbon hotspot flagged" : null,
-                            sustainability.environmental_flags?.waste_pressure ? "waste compliance flagged" : null,
+                            sustainability.environmental_flags?.carbon_hotspot ? "carbon hotspot active" : null,
+                            sustainability.environmental_flags?.waste_pressure ? "waste pressure on watch" : null,
                             sustainability.environmental_flags?.scope3_visible ? "scope 3 reporting included" : null
                           ].filter(Boolean).join(" · ")
                       )
-                    : esc("Environmental signal: no material environmental issue flagged.")
+                    : esc("Environmental signal: environmental profile stable.")
                 }
               </div>
             </div>
