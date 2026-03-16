@@ -632,9 +632,9 @@
             ${renderKV("Scope 3 CO₂e kg", sustainability.environmental_summary?.total_scope3_co2e_kg != null ? sustainability.environmental_summary.total_scope3_co2e_kg : "-")}
             ${renderKV("Total CO₂e kg", sustainability.environmental_summary?.total_co2e_kg != null ? sustainability.environmental_summary.total_co2e_kg : "-")}
             ${renderKV("Total Waste kg", sustainability.environmental_summary?.total_waste_kg != null ? sustainability.environmental_summary.total_waste_kg : "-")}
-            ${renderKV("Carbon Hotspot", sustainability.environmental_flags?.carbon_hotspot ? "yes" : "no")}
-            ${renderKV("Waste Pressure", sustainability.environmental_flags?.waste_pressure ? "yes" : "no")}
-            ${renderKV("Scope 3 Reporting", sustainability.environmental_flags?.scope3_visible ? "yes" : "no")}
+            ${renderKV("Carbon Hotspot", sustainability.environmental_flags?.carbon_hotspot ? "active" : "normal")}
+            ${renderKV("Waste Pressure", sustainability.environmental_flags?.waste_pressure ? "watch" : "normal")}
+            ${renderKV("Scope 3 Reporting", sustainability.environmental_flags?.scope3_visible ? "included" : "not material")}
           </div>
         `)}
       </div>
