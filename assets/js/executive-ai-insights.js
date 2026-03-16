@@ -408,9 +408,9 @@
     }
     if (envFlags.carbon_hotspot) {
       actions.push({
-        title: "Review carbon hotspot exposure in current operating mix",
+        title: "Validate carbon hotspot drivers in the current operating mix",
         priority: "high",
-        rationale: "Environmental layer indicates elevated total CO2e exposure. CFO and sustainability review should validate fuel, electricity and carbon intensity drivers.",
+        rationale: "Environmental layer indicates elevated total CO2e exposure. CFO and sustainability review should confirm whether fuel mix, purchased electricity and process intensity are driving avoidable margin pressure.",
         owner: "CFO / Sustainability",
         confidence: 0.84,
         expected_impact: { energy_kwh: "improve efficiency", co2_kg: "reduce CO₂ exposure", water_m3: "-" },
@@ -419,9 +419,9 @@
     }
     if (envFlags.waste_pressure) {
       actions.push({
-        title: "Escalate waste and wastewater compliance review",
+        title: "Escalate waste and wastewater control before compliance drift grows",
         priority: "high",
-        rationale: "Environmental signals indicate rising waste and wastewater compliance exposure. Management should verify waste segregation, treatment path and discharge control.",
+        rationale: "Environmental signals indicate rising waste and wastewater compliance exposure. Management should verify segregation discipline, treatment path and discharge control before the next cycle increases compliance risk.",
         owner: "CEO / Sustainability",
         confidence: 0.83,
         expected_impact: { energy_kwh: "-", co2_kg: "reduce indirect exposure", water_m3: "support compliance" },
@@ -430,9 +430,9 @@
     }
     if (envFlags.scope3_visible) {
       actions.push({
-        title: "Maintain Scope 3 visibility in executive narrative",
+        title: "Keep Scope 3 visible in executive reporting and supplier context",
         priority: "medium",
-        rationale: "Environmental signals confirm a Scope 3 contribution. It should remain in sustainability reporting even when no direct operational anomaly is active.",
+        rationale: "Environmental signals confirm a Scope 3 contribution. It should remain visible in executive reporting so upstream exposure is not lost even when no direct operational anomaly is active.",
         owner: "Sustainability / Reporting",
         confidence: 0.8,
         expected_impact: { energy_kwh: "-", co2_kg: "improve reporting clarity", water_m3: "-" },
