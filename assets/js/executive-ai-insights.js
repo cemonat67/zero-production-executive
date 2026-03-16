@@ -440,8 +440,19 @@
       });
     }
 
-    const actionsHtml = actions.length
-      ? actions.map(renderActionCard).join("")
+    const priorityRank = { critical: 0, high: 1, medium: 2, low: 3 };
+    const sortedActions = actions
+      .map((action, idx) => ({ action, idx }))
+      .sort((a, b) => {
+        const pa = priorityRank[a.action.priority] ?? 99;
+        const pb = priorityRank[b.action.priority] ?? 99;
+        if (pa !== pb) return pa - pb;
+        return a.idx - b.idx;
+      })
+      .map(({ action }) => action);
+
+    const actionsHtml = sortedActions.length
+      ? sortedActions.map(renderActionCard).join("")
       : `<div class="ai-empty">No immediate recommended actions.</div>`;
 
     const decisionNote = (activeSignals.length || envFlags.carbon_hotspot || envFlags.waste_pressure || envFlags.scope3_visible)
