@@ -299,7 +299,7 @@
 
     const ctoView = latestByType.get("machine_overload")
       ? "Machine load is operating in a high-risk zone. Capacity fit and runtime resilience should be validated immediately."
-      : "System resilience is acceptable. No critical overload state is visible in the local runtime.";
+      : "System resilience is acceptable. No critical overload state is indicated in the current operating context.";
 
     const envScoreDelta = {
       ceo:
@@ -526,7 +526,7 @@
                 <div class="ai-meta-grid">
                   ${renderKV("Carbon Exposure", envFlags.carbon_hotspot ? "active" : "normal")}
                   ${renderKV("Wastewater / Compliance", envFlags.waste_pressure ? "watch" : "normal")}
-                  ${renderKV("Scope 3 Visibility", envFlags.scope3_visible ? "visible" : "not material")}
+                  ${renderKV("Scope 3 Reporting", envFlags.scope3_visible ? "included" : "not material")}
                   ${renderKV("Executive Interpretation", (envFlags.carbon_hotspot || envFlags.waste_pressure || envFlags.scope3_visible) ? "elevated" : "stable")}
                 </div>
               </div>
@@ -604,7 +604,7 @@
                         + [
                             sustainability.environmental_flags?.carbon_hotspot ? "carbon hotspot flagged" : null,
                             sustainability.environmental_flags?.waste_pressure ? "waste compliance flagged" : null,
-                            sustainability.environmental_flags?.scope3_visible ? "scope 3 exposure noted" : null
+                            sustainability.environmental_flags?.scope3_visible ? "scope 3 reporting included" : null
                           ].filter(Boolean).join(" · ")
                       )
                     : esc("Environmental signal: no material environmental issue flagged.")
@@ -634,7 +634,7 @@
             ${renderKV("Total Waste kg", sustainability.environmental_summary?.total_waste_kg != null ? sustainability.environmental_summary.total_waste_kg : "-")}
             ${renderKV("Carbon Hotspot", sustainability.environmental_flags?.carbon_hotspot ? "yes" : "no")}
             ${renderKV("Waste Pressure", sustainability.environmental_flags?.waste_pressure ? "yes" : "no")}
-            ${renderKV("Scope 3 Visible", sustainability.environmental_flags?.scope3_visible ? "yes" : "no")}
+            ${renderKV("Scope 3 Reporting", sustainability.environmental_flags?.scope3_visible ? "yes" : "no")}
           </div>
         `)}
       </div>
