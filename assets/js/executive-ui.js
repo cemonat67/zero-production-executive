@@ -326,8 +326,8 @@ function renderCtoMiniPulse() {
 
       const openModuleHref =
         moduleName === "fabric"
-          ? "fabric-dpp.html?facility=" + encodeURIComponent(facility) + "&line=" + encodeURIComponent(line || "LINE-1")
-          : "finishing-dpp.html?facility=" + encodeURIComponent(facility) + "&lens=" + encodeURIComponent(lens || "overview");
+          ? "executive.html?module=fabric&facility=" + encodeURIComponent(facility) + "&line=" + encodeURIComponent(line || "LINE-1")
+          : "executive.html?module=finishing&facility=" + encodeURIComponent(facility) + "&lens=" + encodeURIComponent(lens || "overview");
 
 
       function buildModal(role) {
