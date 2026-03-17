@@ -665,8 +665,15 @@ letter-spacing:0.02em;
   }
 
   function init() {
-
     buildModal();
+
+    const launcher = document.getElementById("btnExecutiveReportGenerator");
+    if (launcher && !launcher.dataset.zpReportBound) {
+      launcher.addEventListener("click", function () {
+        openModal("executive_summary");
+      });
+      launcher.dataset.zpReportBound = "1";
+    }
   }
 
   window.ZPExecutiveReportGenerator = {
@@ -675,4 +682,10 @@ letter-spacing:0.02em;
     close: closeModal,
     generatePdf: generatePdf
   };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
 })();
