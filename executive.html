@@ -923,57 +923,6 @@ window.addEventListener("load", function () {
 <script src="assets/js/executive-production-decision.js"></script>
   <script src="assets/js/executive-production-alternatives.js"></script>
 
-<script id="work-topbar-fix">
-(function () {
-  function byId(id){ return document.getElementById(id); }
-
-  function openEsgModal(e){
-    if (e) { e.preventDefault(); e.stopPropagation(); }
-    var m = byId("esgDataEntryModal");
-    if (!m) return false;
-    m.classList.add("open");
-    m.setAttribute("aria-hidden","false");
-    return false;
-  }
-
-  function closeEsgModal(e){
-    if (e) { e.preventDefault(); e.stopPropagation(); }
-    var m = byId("esgDataEntryModal");
-    if (!m) return false;
-    m.classList.remove("open");
-    m.setAttribute("aria-hidden","true");
-    return false;
-  }
-
-  function boot(){
-    var back = byId("btnBackDashboard");
-    var fabric = byId("btnGoFabric");
-    var finishing = byId("btnGoFinishing");
-    var esg = byId("openEsgDataEntryBtn");
-    var esgClose = byId("closeEsgDataEntryBtn");
-    var intake = byId("openDataIntakeBtn");
-    var email = byId("openEmailIntakeBtn");
-
-    if (intake) {
-      intake.onclick = function(){ window.location.href = "intake-hub.html"; return false; };
-    }
-
-    if (email) {
-      email.onclick = function(){ window.location.href = "email-intake.html"; return false; };
-    }
-
-    if (esg) esg.onclick = openEsgModal;
-    if (esgClose) esgClose.onclick = closeEsgModal;
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot);
-  } else {
-    boot();
-  }
-})();
-</script>
-
 
 </body>
 </html>
