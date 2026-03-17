@@ -752,10 +752,33 @@
     const modalTitle = byId("execModalTitle");
     const modalSub = byId("execModalSub");
     const modalBody = byId("execModalBody");
+    const closeBtn = byId("execModalClose");
 
     if (!backdrop || !modalTitle || !modalSub || !modalBody) {
       console.error("[AI Insights] executive modal elements not found");
       return false;
+    }
+
+    function closeModal(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      backdrop.classList.remove("open");
+      backdrop.setAttribute("aria-hidden", "true");
+      return false;
+    }
+
+    if (closeBtn && !closeBtn.dataset.aiInsightsCloseBound) {
+      closeBtn.dataset.aiInsightsCloseBound = "1";
+      closeBtn.onclick = closeModal;
+    }
+
+    if (!backdrop.dataset.aiInsightsBackdropBound) {
+      backdrop.dataset.aiInsightsBackdropBound = "1";
+      backdrop.addEventListener("click", function(e) {
+        if (e.target === backdrop) closeModal(e);
+      }, true);
     }
 
     modalTitle.textContent = title;

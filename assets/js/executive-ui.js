@@ -298,36 +298,7 @@ function renderCtoMiniPulse() {
       ensureExecutiveTopChip("execWasteSignal", "Wastewater");
       ensureExecutiveTopChip("execScope3Signal", "Scope 3");
 
-      const backBtn = byId("btnBackDashboard");
-      const fabricBtn = byId("btnGoFabric");
-      const finishingBtn = byId("btnGoFinishing");
 
-      if (backBtn) {
-        backBtn.setAttribute("href", "index.html");
-      }
-
-      if (fabricBtn) {
-        fabricBtn.setAttribute("href", "executive.html?facility=" + encodeURIComponent(facility) + "&line=" + encodeURIComponent(line || "LINE-1"));
-      }
-
-      if (finishingBtn) {
-        finishingBtn.setAttribute("href", "executive.html?facility=" + encodeURIComponent(facility) + "&lens=" + encodeURIComponent(lens || "overview"));
-      }
-
-      if (moduleName === "fabric" && fabricBtn) {
-        fabricBtn.classList.add("primary");
-        if (finishingBtn) finishingBtn.classList.remove("primary");
-      }
-
-      if (moduleName === "finishing" && finishingBtn) {
-        finishingBtn.classList.add("primary");
-        if (fabricBtn) fabricBtn.classList.remove("primary");
-      }
-
-      const openModuleHref =
-        moduleName === "fabric"
-          ? "executive.html?module=fabric&facility=" + encodeURIComponent(facility) + "&line=" + encodeURIComponent(line || "LINE-1")
-          : "executive.html?module=finishing&facility=" + encodeURIComponent(facility) + "&lens=" + encodeURIComponent(lens || "overview");
 
 
       function buildModal(role) {
@@ -1949,18 +1920,7 @@ var scenarioRiskEl = byId("ceoModalScenarioRisk");
         });
       });
 
-      document.addEventListener("click", function(e){
-        const closeBtn = e.target && e.target.closest ? e.target.closest("#execModalClose") : null;
-        if (closeBtn) {
-          e.preventDefault();
-          closeExecModal();
-          return;
-        }
-        const backdrop = byId("execModalBackdrop");
-        if (backdrop && e.target === backdrop) {
-          closeExecModal();
-        }
-      });
+
 
       document.addEventListener("keydown", function(e){
         if (e.key === "Escape") closeExecModal();

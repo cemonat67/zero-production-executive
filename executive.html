@@ -23,8 +23,8 @@
 
 
 
-  <link rel="stylesheet" href="assets/css/executive.css">
-  <link rel="stylesheet" href="assets/css/executive-production-decision.css">
+  <link rel="stylesheet" href="assets/css/executive.css?v=20260317a">
+  <link rel="stylesheet" href="assets/css/executive-production-decision.css?v=20260317a">
 
   <style>
     .actions-toolbar::-webkit-scrollbar{ display:none; }
@@ -133,12 +133,9 @@ window.ZERO_CONFIG = {
     </div>
 
     <div class="actions actions-toolbar">
-      <a class="btn header-green" id="btnBackDashboard" href="index.html">Back</a>
       <button class="btn primary header-green" id="openEsgDataEntryBtn" type="button">Consumption Data</button>
       <button class="btn header-green" id="openDataIntakeBtn" type="button">Intake Hub</button>
       <button class="btn header-green" id="openEmailIntakeBtn" type="button">Email Intake</button>
-      <a class="btn header-green" id="btnGoFabric" href="executive.html?module=fabric">Fabric</a>
-      <a class="btn primary header-green" id="btnGoFinishing" href="executive.html?module=finishing">Finishing</a>
       <button class="btn header-green" id="openAiInsightsBtn" type="button">AI Insights</button>
       <a class="btn header-green" id="btnReportsCenter" href="reports.html">Reports</a>
     </div>
@@ -871,7 +868,6 @@ window.addEventListener("load", function () {
 
 <!-- EXEC_PHASE3_PERSISTENCE_START -->
 <script src="assets/js/exec-phase3-config.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="assets/js/executive-phase3-persistence.js"></script>
 <!-- EXEC_PHASE3_PERSISTENCE_END -->
 
@@ -888,7 +884,7 @@ window.addEventListener("load", function () {
   <script src="assets/js/environmental-layer-core.js?v=20260315a"></script>
   <script src="assets/js/factory-os-core.js?v=20260315-step7fix"></script>
   <script src="assets/js/factory-os-signals.js?v=20260315-step7fix"></script>
-  <script src="assets/js/executive-ui.js?v=20260315-step7fix"></script>
+  <script src="assets/js/executive-ui.js?v=20260317-closefix1"></script>
   <script src="assets/js/executive-env-emphasis.js?v=20260315-step7fix2"></script>
   <script src="assets/js/environmental-layer-inspector.js?v=20260315a"></script>
 
@@ -926,6 +922,59 @@ window.addEventListener("load", function () {
 
 <script src="assets/js/executive-production-decision.js"></script>
   <script src="assets/js/executive-production-alternatives.js"></script>
+
+<script id="work-topbar-fix">
+(function () {
+  function byId(id){ return document.getElementById(id); }
+
+  function openEsgModal(e){
+    if (e) { e.preventDefault(); e.stopPropagation(); }
+    var m = byId("esgDataEntryModal");
+    if (!m) return false;
+    m.classList.add("open");
+    m.setAttribute("aria-hidden","false");
+    return false;
+  }
+
+  function closeEsgModal(e){
+    if (e) { e.preventDefault(); e.stopPropagation(); }
+    var m = byId("esgDataEntryModal");
+    if (!m) return false;
+    m.classList.remove("open");
+    m.setAttribute("aria-hidden","true");
+    return false;
+  }
+
+  function boot(){
+    var back = byId("btnBackDashboard");
+    var fabric = byId("btnGoFabric");
+    var finishing = byId("btnGoFinishing");
+    var esg = byId("openEsgDataEntryBtn");
+    var esgClose = byId("closeEsgDataEntryBtn");
+    var intake = byId("openDataIntakeBtn");
+    var email = byId("openEmailIntakeBtn");
+
+    if (intake) {
+      intake.onclick = function(){ window.location.href = "intake-hub.html"; return false; };
+    }
+
+    if (email) {
+      email.onclick = function(){ window.location.href = "email-intake.html"; return false; };
+    }
+
+    if (esg) esg.onclick = openEsgModal;
+    if (esgClose) esgClose.onclick = closeEsgModal;
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+
+
 </body>
 </html>
 
