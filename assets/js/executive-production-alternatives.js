@@ -9,17 +9,17 @@ function scoreMachineCandidateStrategy(r, strategy){
   const water = Number(r.water) || 0;
   const loadPenalty = Math.abs(75 - load);
 
+  let score;
   if(strategy === "eco"){
-    return 0.6*co2 + 0.2*energy + 0.1*(water/100) + 0.1*loadPenalty;
+    score = 0.6*co2 + 0.2*energy + 0.1*(water/100) + 0.1*loadPenalty;
+  } else if(strategy === "energy"){
+    score = 0.6*energy + 0.2*co2 + 0.1*(water/100) + 0.1*loadPenalty;
+  } else if(strategy === "capacity"){
+    score = 0.6*loadPenalty + 0.2*energy + 0.1*co2 + 0.1*(water/100);
+  } else {
+    score = 0.4*loadPenalty + 0.3*energy + 0.2*co2 + 0.1*(water/100);
   }
-  if(strategy === "energy"){
-    return 0.6*energy + 0.2*co2 + 0.1*(water/100) + 0.1*loadPenalty;
-  }
-  if(strategy === "capacity"){
-    return 0.6*loadPenalty + 0.2*energy + 0.1*co2 + 0.1*(water/100);
-  }
-  // balanced
-  return 0.4*loadPenalty + 0.3*energy + 0.2*co2 + 0.1*(water/100);
+  return Number(score.toFixed(1));
 }
 
 function rankMachinesByStrategy(rows, strategy){
@@ -565,7 +565,7 @@ const tag = idx === 0
       0.2 * co2 +
       0.1 * (water / 100)
 
-    return Number(score.toFixed(2))
+    return Number(score.toFixed(1))
   }
 
   function rankMachineCandidates(rows){
