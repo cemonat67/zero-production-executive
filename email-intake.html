@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zero@Production — Email Intake Adapter</title>
+  <style>
+    :root{
+      --bg:#08101b;
+      --card:#101a2a;
+      --line:rgba(255,255,255,.08);
+      --text:#f5f7fb;
+      --muted:#9fb0c7;
+      --green:#005530;
+      --navy:#02154e;
+      --orange:#f9ba00;
+      --red:#d51635;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:linear-gradient(180deg,#08101b 0%, #0c1728 100%);
+      color:var(--text);
+    }
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:28px 20px 60px;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:22px;
+    }
+    .back{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
+      color:#08101b;
+      background:var(--orange);
+      padding:10px 14px;
+      border-radius:12px;
+      font-weight:700;
+    }
+    .hero{
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:24px;
+      box-shadow:0 20px 50px rgba(0,0,0,.25);
+      margin-bottom:20px;
+    }
+    .kicker{
+      color:var(--orange);
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+    h1{
+      margin:0 0 8px;
+      font-size:32px;
+      line-height:1.1;
+    }
+    .sub{
+      color:var(--muted);
+      max-width:760px;
+      line-height:1.6;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      gap:20px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:20px;
+      box-shadow:0 16px 40px rgba(0,0,0,.22);
+    }
+    .card h2{
+      margin:0 0 14px;
+      font-size:20px;
+    }
+    .field{
+      margin-bottom:14px;
+    }
+    .label{
+      display:block;
+      margin-bottom:7px;
+      color:#dfe7f6;
+      font-weight:700;
+      font-size:14px;
+    }
+    input, textarea, select{
+      width:100%;
+      background:#0d1523;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:12px 13px;
+      font-size:14px;
+      outline:none;
+    }
+    textarea{
+      min-height:180px;
+      resize:vertical;
+    }
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    button{
+      appearance:none;
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .primary{ background:var(--orange); color:#08101b; }
+    .secondary{ background:#18253a; color:var(--text); border:1px solid var(--line); }
+    .status{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      background:#0d1523;
+      border:1px solid var(--line);
+      color:var(--muted);
+      min-height:48px;
+      line-height:1.5;
+      white-space:pre-wrap;
+    }
+    .mini{
+      display:grid;
+      gap:12px;
+    }
+    .mini-box{
+      background:#0d1523;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+    }
+    .mini-title{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:var(--orange);
+      margin-bottom:8px;
+      font-weight:700;
+    }
+    .mini-copy{
+      color:var(--muted);
+      line-height:1.6;
+      font-size:14px;
+    }
+    .code{
+      font-family:Menlo,Monaco,monospace;
+      font-size:12px;
+      color:#cfe0ff;
+      word-break:break-word;
+    }
+    @media (max-width: 860px){
+      .grid{ grid-template-columns:1fr; }
+      .row{ grid-template-columns:1fr; }
+      h1{ font-size:26px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="back" href="executive.html">← Back to Executive Dashboard</a>
+    </div>
+
+    <section class="hero">
+      <div class="kicker">Executive v2 · Intake Adapter Phase</div>
+      <h1>Email Intake Adapter</h1>
+      <div class="sub">
+        First practical adapter skeleton. This page accepts raw e-mail fields, normalizes them into a structured intake payload,
+        runs a lightweight preflight, commits into the local inbox store, and sets a refresh signal for the executive surface.
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Incoming Email</h2>
+        <form id="emailIntakeForm">
+          <div class="row">
+            <div class="field">
+              <label class="label" for="emailSender">Sender</label>
+              <input id="emailSender" name="sender" type="email" placeholder="supplier@example.com" required />
+            </div>
+            <div class="field">
+              <label class="label" for="emailSubject">Subject</label>
+              <input id="emailSubject" name="subject" type="text" placeholder="PO Update / Delivery Delay / Quality Issue" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="emailBody">Body</label>
+            <textarea id="emailBody" name="body" placeholder="Paste the e-mail body here..." required></textarea>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label class="label" for="attachmentName">Attachment Name</label>
+              <input id="attachmentName" name="attachment_name" type="text" placeholder="delivery-note.pdf" />
+            </div>
+            <div class="field">
+              <label class="label" for="attachmentType">Attachment Type</label>
+              <input id="attachmentType" name="attachment_type" type="text" placeholder="application/pdf" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label class="label" for="attachmentSize">Attachment Size (bytes)</label>
+              <input id="attachmentSize" name="attachment_size" type="number" min="0" step="1" placeholder="245760" />
+            </div>
+            <div class="field">
+              <label class="label" for="emailFacility">Facility</label>
+              <select id="emailFacility" name="facility">
+                <option value="Ekoten">Ekoten</option>
+                <option value="Merkez">Merkez</option>
+                <option value="Boya">Boya</option>
+                <option value="Finish">Finish</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="primary">Run Preflight + Commit</button>
+            <button type="button" class="secondary" id="btnLoadSampleEmail">Load Sample</button>
+            <button type="reset" class="secondary">Reset</button>
+          </div>
+        </form>
+
+        <div class="status" id="emailIntakeStatus">Ready.</div>
+      </section>
+
+      <aside class="mini">
+        <div class="mini-box">
+          <div class="mini-title">Normalized Target</div>
+          <div class="mini-copy">
+            Channel-neutral structured object aligned to the intake philosophy:
+          </div>
+          <div class="code" id="normalizedPreview">No payload yet.</div>
+        </div>
+
+        <div class="mini-box">
+          <div class="mini-title">Phase Scope</div>
+          <div class="mini-copy">
+            No IMAP yet. No real backend yet. This is the first adapter skeleton to prove:
+            receive → normalize → preflight → commit → refresh.
+          </div>
+        </div>
+
+        <div class="mini-box">
+          <div class="mini-title">Commit Target</div>
+          <div class="mini-copy">
+            Local mock store:
+          </div>
+          <div class="code">agents/email_intake/runtime/inbox.json</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="assets/js/email-intake-adapter.js"></script>
+</body>
+</html>
