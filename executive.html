@@ -568,7 +568,7 @@ window.ZERO_CONFIG = {
           <h2 class="esg-modal-title" id="esgDataEntryTitle">Executive ESG Data Entry</h2>
           <div class="esg-modal-sub">Manual consumption entry layer for GHG / ESG inputs. This patch stores the latest record locally and feeds a lightweight executive overlay without breaking CEO / CFO / CTO engines.</div>
         </div>
-        <button class="esg-modal-close" id="closeEsgDataEntryBtn" type="button">✕ Close</button>
+        <button class="esg-modal-close" id="closeEsgDataEntryBtn" type="button" onclick="var m=document.getElementById('esgDataEntryModal'); if(m){ m.classList.remove('open'); m.setAttribute('aria-hidden','true'); } return false;">✕ Close</button>
       </div>
 
       <div class="esg-modal-body">
