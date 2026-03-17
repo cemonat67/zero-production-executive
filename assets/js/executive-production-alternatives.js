@@ -445,7 +445,7 @@ const tag = idx === 0
           <div class="zp-alt-metrics">
             <div class="zp-alt-metric">
               <div class="zp-pde-label">Decision Score</div>
-              <div class="zp-alt-value zp-score">${r.decisionScore ?? "—"}</div>
+              <div class="zp-alt-value zp-score">${r.decisionScore == null ? "—" : fmtNumber(r.decisionScore, 1)}</div>
             </div>
             <div class="zp-alt-metric">
               <div class="zp-pde-label">Load</div>
@@ -504,7 +504,7 @@ const tag = idx === 0
                   <div class="zp-alt-metrics">
             <div class="zp-alt-metric">
               <div class="zp-pde-label">Decision Score</div>
-              <div class="zp-alt-value zp-score">${r.decisionScore ?? "—"}</div>
+              <div class="zp-alt-value zp-score">${r.decisionScore == null ? "—" : fmtNumber(r.decisionScore, 1)}</div>
             </div>
                     <div class="zp-alt-metric">
                       <div class="zp-pde-label">Load</div>
@@ -608,7 +608,7 @@ function renderOptimizerPanel(rows){
     </div>
 
     <div class="zp-opt-score">
-      Decision Score: ${best.decisionScore}
+      Decision Score: ${best.decisionScore == null ? "—" : fmtNumber(best.decisionScore, 1)}
     </div>
 
     <div class="zp-opt-adv">
@@ -661,7 +661,7 @@ const tag = idx === 0
           <div class="zp-alt-metrics">
             <div class="zp-alt-metric">
               <div class="zp-pde-label">Decision Score</div>
-              <div class="zp-alt-value zp-score">${r.decisionScore ?? "—"}</div>
+              <div class="zp-alt-value zp-score">${r.decisionScore == null ? "—" : fmtNumber(r.decisionScore, 1)}</div>
             </div>
             <div class="zp-alt-metric">
               <div class="zp-pde-label">Load</div>
